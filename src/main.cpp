@@ -33,7 +33,11 @@ int	create_server( int port )
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(port);
 	sin.sin_addr.s_addr = htonl(INADDR_ANY);
-	bind(sock, (const struct sockaddr *)&sin, sizeof(sin));
+	if (bind(sock, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
+	{
+		std::cerr << "Bind error" << std::endl;
+		exit(2);
+	}
 	listen(sock, 42);
 	return (sock);
 }
@@ -57,11 +61,10 @@ int	main( int argc, char **argv )
 	port = atoi(argv[1]);
 	sock = create_server(port);
 	cs = accept(sock, (struct sockaddr*)&csin, &cslen);
-	r = read(cs, buff, 1023);
-	if (r > 0)
+	while ( (r = read(cs, buff, 1023)) > 0 )
 	{
 		buff[r] = '\0';
-		std::cout << "received " << r << " bytes: " << buff << std::endl;
+		std::cout << "received " << r << " bytes: " << buff;
 	}
 	close(cs);
 	close(sock);
