@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/04/25 18:23:50 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:01:15 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,9 @@ int	main( int argc, char **argv )
 {
 	int 				port;
 	int 				sock;
-	int					cs;
 	unsigned int		cslen;
 	struct sockaddr_in	csin;
 	char				buff[1024];
-	int					r;
 
 	if ( argc != 2)
 	{
@@ -60,13 +58,64 @@ int	main( int argc, char **argv )
 	
 	port = atoi(argv[1]);
 	sock = create_server(port);
-	cs = accept(sock, (struct sockaddr*)&csin, &cslen);
-	while ( (r = read(cs, buff, 1023)) > 0 )
+	    
+	fd_set readFds;
+
+    int loop = sock;
+	
+    FD_ZERO(&readFds);
+    FD_SET(sock, &readFds);
+
+    while (1) 
 	{
-		buff[r] = '\0';
-		std::cout << "received " << r << " bytes: " << buff;
-	}
-	close(cs);
-	close(sock);
-	return 0;
+        fd_set tmpFds = readFds;
+		
+        if (select(loop + 1, &tmpFds, NULL, NULL, NULL) == -1) 
+		{
+            perror("select Error");
+            exit(2);
+        }
+        for (int fd = 0; fd <= loop; fd++) 
+		{
+            if (FD_ISSET(fd, &tmpFds)) 
+			{
+                if (fd == sock) 
+				{
+                    int sockClient = accept(sock, (struct sockaddr*)&csin, &cslen);
+                    if (sockClient == -1) 
+                        perror("accept");
+					else 
+					{
+                        FD_SET(sockClient, &readFds);
+						
+                        if (sockClient > loop)
+                            loop = sockClient;
+                    }
+                } 
+				else 
+				{
+                    int num_bytes = recv(fd, buff, 1023, 0);
+					
+                    if (num_bytes == -1)
+                        perror("recv");
+                    else if (num_bytes == 0) 
+					{
+                        std::cout << "Client disconnected" << std::endl;
+                        close(fd);
+                        FD_CLR(fd, &readFds);
+                    } 
+					else 
+					{
+                        buff[num_bytes] = '\0';
+                        std::cout << "Received " << num_bytes << " bytes: " << buff << std::endl;
+						
+                        if (send(fd, "MESSAGE BIEN RECU", 18, 0) == -1)
+                            perror("send");
+                    }
+                }
+            }
+        }
+    }
+    close(sock);
+    return 0;
 }
