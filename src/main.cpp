@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/04/28 17:01:15 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/04/28 17:03:17 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main( int argc, char **argv )
 		
         if (select(loop + 1, &tmpFds, NULL, NULL, NULL) == -1) 
 		{
-            perror("select Error");
+            std::cerr << "select error" << std::endl;
             exit(2);
         }
         for (int fd = 0; fd <= loop; fd++) 
@@ -83,7 +83,7 @@ int	main( int argc, char **argv )
 				{
                     int sockClient = accept(sock, (struct sockaddr*)&csin, &cslen);
                     if (sockClient == -1) 
-                        perror("accept");
+                        std::cerr << "accept error" << std::endl;
 					else 
 					{
                         FD_SET(sockClient, &readFds);
@@ -97,7 +97,7 @@ int	main( int argc, char **argv )
                     int num_bytes = recv(fd, buff, 1023, 0);
 					
                     if (num_bytes == -1)
-                        perror("recv");
+                        std::cerr << "recv error" << std::endl;
                     else if (num_bytes == 0) 
 					{
                         std::cout << "Client disconnected" << std::endl;
@@ -110,7 +110,7 @@ int	main( int argc, char **argv )
                         std::cout << "Received " << num_bytes << " bytes: " << buff << std::endl;
 						
                         if (send(fd, "MESSAGE BIEN RECU", 18, 0) == -1)
-                            perror("send");
+                            std::cerr << "send error" << std::endl;
                     }
                 }
             }
