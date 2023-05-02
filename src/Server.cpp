@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 21:28:17 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/02 22:25:19 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,20 @@ void    Server::setBuff( std::string buff )
     return;
 }
 
+void	Server::setSock(int sock) {
+	
+	this->_sock = sock;
+    return;
+}
+
 void    Server::process( std::string username, int socket )
 {
 	size_t pos;
-	(void)username;
-	(void)socket;
 
 	if ( this->_buff.empty() )
         std::cerr << "Error: message is empty" << std::endl;
 	else if ( ( pos = _buff.find("SEND") ) != std::string::npos )
-		std::cout << "find SEND" << std::endl;
+		sendMessage(username, this->_buff, socket);
 	else if ( ( pos = _buff.find("JOIN") ) != std::string::npos )
 		std::cout << "find JOIN" << std::endl;
 	else if ( ( pos = _buff.find("CHANNEL") ) != std::string::npos )
@@ -95,6 +99,9 @@ void    Server::process( std::string username, int socket )
 	else if ( ( pos = _buff.find("NICKNAME") ) != std::string::npos )
 		std::cout << "find NICKNAME" << std::endl;
 	else
-		std::cerr << "The only accepted commands are: SEND, JOIN, CHANNEL or NICKNAME" << std::endl;
+	{
+		if (send(socket, "The only accepted commands are: SEND, JOIN, CHANNEL or NICKNAME\n", 65, 0) == -1)
+			std::cerr << "Error Message can't be sent" << std::endl;
+	}
 	return;
 }

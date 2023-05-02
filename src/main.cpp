@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:58:41 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 19:22:38 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/02 21:47:36 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main( int argc, char **argv )
 	}
 
 	sock = create_server(port);
-
+	server.setSock(sock);
 	launch_server(server, sock);
 
 	close(sock);
