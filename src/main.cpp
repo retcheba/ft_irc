@@ -3,44 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/04/28 17:03:17 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/02 16:46:07 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-
-#include <unistd.h>
-#include <stdlib.h>
-
-#include <sys/socket.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
-int	create_server( int port )
-{
-	int					sock;
-	struct protoent		*proto;
-	struct sockaddr_in	sin;
-
-	proto = getprotobyname("tcp");
-	if (proto == 0)
-		return -1;
-	sock = socket(PF_INET, SOCK_STREAM, proto->p_proto);
-	sin.sin_family = AF_INET;
-	sin.sin_port = htons(port);
-	sin.sin_addr.s_addr = htonl(INADDR_ANY);
-	if (bind(sock, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
-	{
-		std::cerr << "Bind error" << std::endl;
-		exit(2);
-	}
-	listen(sock, 42);
-	return (sock);
-}
+#include "../inc/Server.hpp"
 
 int	main( int argc, char **argv )
 {
@@ -49,14 +19,24 @@ int	main( int argc, char **argv )
 	unsigned int		cslen;
 	struct sockaddr_in	csin;
 	char				buff[1024];
+    Server              server;
+    bool                lock = false;
 
-	if ( argc != 2)
+    if ( argc != 3)
 	{
-		std::cerr << "Usage: " << argv[0] << " <port>" << std::endl;
+		std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
 		return 1;
 	}
 	
 	port = atoi(argv[1]);
+    server.setPassword(argv[2]);
+
+    if ( server.getPassword().empty() )
+    {
+        std::cerr << "Error: password is empty" << std::endl;
+		return 1;
+    }
+
 	sock = create_server(port);
 	    
 	fd_set readFds;
@@ -68,6 +48,7 @@ int	main( int argc, char **argv )
 
     while (1) 
 	{
+        
         fd_set tmpFds = readFds;
 		
         if (select(loop + 1, &tmpFds, NULL, NULL, NULL) == -1) 
@@ -77,11 +58,15 @@ int	main( int argc, char **argv )
         }
         for (int fd = 0; fd <= loop; fd++) 
 		{
+            buff[0] = '\0';
+            lock = false;
+
             if (FD_ISSET(fd, &tmpFds)) 
 			{
                 if (fd == sock) 
 				{
                     int sockClient = accept(sock, (struct sockaddr*)&csin, &cslen);
+                    
                     if (sockClient == -1) 
                         std::cerr << "accept error" << std::endl;
 					else 
@@ -90,27 +75,110 @@ int	main( int argc, char **argv )
 						
                         if (sockClient > loop)
                             loop = sockClient;
+                    
+                        while ( ( buff[0] == '\0' || buff[0] == '\n' ) && !lock )
+                        {
+                            if (send(sockClient, "Password: ", 11, 0) == -1)
+                            {
+                                std::cerr << "Error during connection" << std::endl;
+                                break;
+                            }
+
+                            int num_bytes = recv(sockClient, buff, 1023, 0);
+    					
+                            if (num_bytes == -1)
+                            {
+                                std::cerr << "Error during connection" << std::endl;
+                                break;
+                            }
+                            else if (num_bytes == 0) 
+    					    {
+                                std::cerr << "Error during connection" << std::endl;
+                                close(sockClient);
+                                FD_CLR(sockClient, &readFds);
+                                break;
+                            }
+        					else if ( buff[0] != '\0' && buff[0] != '\n' )
+        					{
+                                if ( buff[num_bytes - 1] == '\n' )
+                                    buff[num_bytes - 1] = '\0';
+                                else
+                                    buff[num_bytes] = '\0';
+        						
+                                if ( server.getPassword() == buff )
+                                    lock = true;
+                                else
+                                    buff[0] = '\0';
+                                    
+                            }
+                        }
+
+                        buff[0] = '\0';
+                        
+                        while ( ( buff[0] == '\0' || buff[0] == '\n' ) && lock )
+                        {
+                            if (send(sockClient, "Username: ", 11, 0) == -1)
+                            {
+                                std::cerr << "Error during connection" << std::endl;
+                                break;
+                            }
+
+                            int num_bytes = recv(sockClient, buff, 1023, 0);
+    					
+                            if (num_bytes == -1)
+                            {
+                                std::cerr << "Error during connection" << std::endl;
+                                break;
+                            }
+                            else if (num_bytes == 0) 
+    					    {
+                                std::cerr << "Error during connection" << std::endl;
+                                close(sockClient);
+                                FD_CLR(sockClient, &readFds);
+                                break;
+                            }
+        					else if ( buff[0] != '\0' && buff[0] != '\n' )
+        					{
+                                if ( buff[num_bytes - 1] == '\n' )
+                                    buff[num_bytes - 1] = '\0';
+                                else
+                                    buff[num_bytes] = '\0';
+        						
+                                std::cout << buff << " connected" << std::endl;
+                                
+                                server.newClient( ( sockClient - sock ), buff );
+                            }
+                        }
                     }
                 } 
 				else 
 				{
-                    int num_bytes = recv(fd, buff, 1023, 0);
-					
-                    if (num_bytes == -1)
-                        std::cerr << "recv error" << std::endl;
-                    else if (num_bytes == 0) 
-					{
-                        std::cout << "Client disconnected" << std::endl;
-                        close(fd);
-                        FD_CLR(fd, &readFds);
-                    } 
-					else 
-					{
-                        buff[num_bytes] = '\0';
-                        std::cout << "Received " << num_bytes << " bytes: " << buff << std::endl;
-						
-                        if (send(fd, "MESSAGE BIEN RECU", 18, 0) == -1)
-                            std::cerr << "send error" << std::endl;
+                    while ( buff[0] == '\0' || buff[0] == '\n' )
+                    {
+                        int num_bytes = recv(fd, buff, 1023, 0);
+    					
+                        if (num_bytes == -1)
+                        {
+                            std::cerr << "Error during message reception" << std::endl;
+                            break;
+                        }
+                        else if (num_bytes == 0) 
+    					{
+                            std::cout << server.getUsername( fd - sock ) << " disconnected" << std::endl;
+                            close(fd);
+                            FD_CLR(fd, &readFds);
+                            break;
+                        } 
+    					else if ( buff[0] != '\0' && buff[0] != '\n' )
+    					{
+                            if ( buff[num_bytes - 1] == '\n' )
+                                buff[num_bytes - 1] = '\0';
+                            else
+                                buff[num_bytes] = '\0';
+
+                            server.setBuff(buff);
+                            server.process( server.getUsername( fd - sock ) );
+                        }
                     }
                 }
             }
