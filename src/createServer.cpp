@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 19:37:50 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/02 21:23:30 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ void	get_input( Server &server, int &fd, int &sock, fd_set &readFds )
 				buff[num_bytes] = '\0';
 
 			server.setBuff(buff);
-			server.process( server.getUsername( fd - sock ) );
+			server.process( server.getUsername( fd - sock ), fd );
 		}
 	}
 	return;

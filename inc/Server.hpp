@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 20:15:54 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/02 21:24:12 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 # include <string>
 # include <map>
 # include <algorithm>
+# include <cstring>
+# include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <signal.h>
 # include <sys/socket.h>
 # include <netdb.h>
 # include <netinet/in.h>
 # include <arpa/inet.h>
-# include <cstring>
 
 class Server
 {
@@ -32,10 +32,8 @@ class Server
 public:
 
     Server( void );
-    Server( Server const & src );
     ~Server( void );
 
-    Server &    operator=( Server const & rhs );
     void        setPassword( std::string password );
     std::string getPassword( void );
     void        newClient( int sock, std::string username );
@@ -43,7 +41,7 @@ public:
 	void		deleteAllClient( void );
     std::string getUsername( int sock );
     void        setBuff( std::string buff );
-    void        process( std::string username );
+    void        process( std::string username, int sockect );
 
     // SEND
     void	sendMessage(std::string username, std::string buff);
