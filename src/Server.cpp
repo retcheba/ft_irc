@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 19:13:22 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/02 20:22:16 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,23 @@ void    Server::setBuff( std::string buff )
 
 void    Server::process( std::string username )
 {
+	size_t pos;
+	(void) username;
     if ( this->_buff.empty() )
     {
         std::cerr << "Error: message is empty" << std::endl;
     }
-    std::cout << username << ": " << this->_buff << std::endl;
+	pos = _buff.find("SEND");
+	if (pos != std::string::npos)
+		std::cout << "find SEND" << std::endl;
+	pos = _buff.find("JOIN");
+	if (pos != std::string::npos)
+		std::cout << "find JOIN" << std::endl;
+	pos = _buff.find("CHANNEL");
+	if (pos != std::string::npos)
+		std::cout << "find CHANNEL" << std::endl;
+	pos = _buff.find("NICKNAME");
+	if (pos != std::string::npos)
+		std::cout << "find NICKNAME" << std::endl;
 	return;
 }

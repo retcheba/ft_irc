@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 19:24:09 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/02 20:15:54 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <netdb.h>
 # include <netinet/in.h>
 # include <arpa/inet.h>
+# include <cstring>
 
 class Server
 {
@@ -43,6 +44,15 @@ public:
     std::string getUsername( int sock );
     void        setBuff( std::string buff );
     void        process( std::string username );
+
+    // SEND
+    void	sendMessage(std::string username, std::string buff);
+
+    // CHANNEL
+    
+    // JOIN
+
+    // NICKNAME
 
 private:
 
