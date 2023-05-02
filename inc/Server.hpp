@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 16:12:45 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:52:28 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ public:
     void        setPassword( std::string password );
     std::string getPassword( void );
     void        newClient( int sock, std::string username );
+	void		deleteClient( int sock );
+	void		deleteAllClient( void );
     std::string getUsername( int sock );
     void        setBuff( std::string buff );
     void        process( std::string username );
@@ -49,6 +51,10 @@ private:
 
 };
 
-int create_server( int port );
+int		create_server( int port );
+void	launch_server( Server &server, int &sock );
+bool	check_password( int &sockClient, fd_set &readFds, Server &server );
+void	set_username( int &sockClient, int &sock, fd_set &readFds, Server &server, bool &lock );
+void	get_input( Server &server, int &fd, int &sock, fd_set &readFds );
 
 #endif
