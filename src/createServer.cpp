@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 18:53:19 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/02 19:37:50 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	launch_server( Server &server, int &sock )
 	FD_ZERO(&readFds);
 	FD_SET(sock, &readFds);
 
+	sig_init();
+
 	while (1) 
 	{
 		fd_set tmpFds = readFds;
@@ -58,8 +60,9 @@ void	launch_server( Server &server, int &sock )
 		{
 			if (FD_ISSET(fd, &tmpFds)) 
 			{
-				if (fd == sock) 
+				if (fd == sock)
 				{
+					cslen = sizeof(csin);
 					int sockClient = accept(sock, (struct sockaddr*)&csin, &cslen);
 					
 					if (sockClient == -1) 
@@ -189,7 +192,7 @@ void	get_input( Server &server, int &fd, int &sock, fd_set &readFds )
 		else if (num_bytes == 0) 
 		{
 			std::cout << server.getUsername( fd - sock ) << " disconnected" << std::endl;
-//			server.deleteClient( fd - sock );
+			server.deleteClient( fd - sock );
 			close(fd);
 			FD_CLR(fd, &readFds);
 			break;

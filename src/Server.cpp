@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 17:49:06 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/02 19:13:22 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,17 @@ void	Server::deleteClient( int sock )
 	for ( std::map<int, std::string>::iterator it = this->_clients.begin(); it != ite; it++ )
 	{
 		if ( it->first == sock )
+		{
 			this->_clients.erase(it);
+			break;
+		}
 	}
 	return;
 }
 
 void	Server::deleteAllClient( void )
 {
-	std::map<int, std::string>::iterator    ite = this->_clients.end();
-
-	for ( std::map<int, std::string>::iterator it = this->_clients.begin(); it != ite; it++ )
-		this->_clients.erase(it);
-
+	this->_clients.clear();
 	return;
 }
 

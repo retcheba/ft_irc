@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   signal.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 16:58:41 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 19:22:38 by retcheba         ###   ########.fr       */
+/*   Created: 2023/05/02 19:17:11 by retcheba          #+#    #+#             */
+/*   Updated: 2023/05/02 19:24:53 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
 
-int	main( int argc, char **argv )
+void	sig_handler(int sig);
+
+/*
+sig=3 -> ^\
+sig=2 -> ^C
+sig=11 -> ^D
+*/
+
+void	sig_init(void)
 {
-	int 				port;
-	int 				sock;
-	Server				server;
+	signal(SIGINT, sig_handler);
+//	signal(SIGSEGV, sig_handler);
+//	signal(SIGQUIT, SIG_IGN);
+}
 
-	if ( argc != 3)
+void	sig_handler(int sig)
+{
+	if (sig == 2)
 	{
-		std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
-		return 1;
+		std::cout << "Server disconnected" << std::endl;
+		exit(0);
 	}
-	
-	port = atoi(argv[1]);
-	server.setPassword(argv[2]);
-
-	if ( server.getPassword().empty() )
-	{
-		std::cerr << "Error: password is empty" << std::endl;
-		return 1;
-	}
-
-	sock = create_server(port);
-
-	launch_server(server, sock);
-
-	close(sock);
-	return 0;
+//	if (sig == 11)
+//	{
+//		("exit\n");
+//		exit(1);
+//	}
 }
