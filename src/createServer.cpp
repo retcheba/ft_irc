@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/03 17:58:12 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/03 18:51:10 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	launch_server( Server &server, int &sock )
 						
 						lock = check_password(sockClient, readFds, server);		
 
-						set_username(sockClient, sock, readFds, server, lock);
+						std::string nick = set_nickname(sockClient, readFds, lock);
+						set_username(sockClient, sock, readFds, server, lock, nick);
 					}
 				} 
 				else 
@@ -133,14 +134,56 @@ bool	check_password( int &sockClient, fd_set &readFds, Server &server )
 	return (lock);
 }
 
-void	set_username( int &sockClient, int &sock, fd_set &readFds, Server &server, bool &lock )
+void	set_username( int &sockClient, int &sock, fd_set &readFds, Server &server, bool &lock, std::string nick )
+{
+	char	user[1024];
+
+	user[0] = '\0';
+	while ( ( user[0] == '\0' || user[0] == '\n' ) && lock )
+	{
+		if (send(sockClient, "Username: ", 11, 0) == -1)
+		{
+			std::cerr << "Error during connection" << std::endl;
+			break;
+		}
+
+		int num_bytes = recv(sockClient, user, 1023, 0);
+	
+		if (num_bytes == -1)
+		{
+			std::cerr << "Error during connection" << std::endl;
+			break;
+		}
+		else if (num_bytes == 0) 
+		{
+			std::cerr << "Error during connection" << std::endl;
+			close(sockClient);
+			FD_CLR(sockClient, &readFds);
+			break;
+		}
+		else if ( user[0] != '\0' && user[0] != '\n' )
+		{
+			if ( user[num_bytes - 1] == '\n' )
+				user[num_bytes - 1] = '\0';
+			else
+				user[num_bytes] = '\0';
+			
+			std::cout << user << " connected" << std::endl;
+			
+			server.newClient( ( sockClient - sock ), sockClient ,user, nick );
+		}
+	}
+	return;
+}
+
+std::string		set_nickname( int &sockClient, fd_set &readFds, bool &lock )
 {
 	char	buff[1024];
 
 	buff[0] = '\0';
 	while ( ( buff[0] == '\0' || buff[0] == '\n' ) && lock )
 	{
-		if (send(sockClient, "Username: ", 11, 0) == -1)
+		if (send(sockClient, "Nickname: ", 11, 0) == -1)
 		{
 			std::cerr << "Error during connection" << std::endl;
 			break;
@@ -166,13 +209,9 @@ void	set_username( int &sockClient, int &sock, fd_set &readFds, Server &server, 
 				buff[num_bytes - 1] = '\0';
 			else
 				buff[num_bytes] = '\0';
-			
-			std::cout << buff << " connected" << std::endl;
-			
-			server.newClient( ( sockClient - sock ), sockClient ,buff );
 		}
 	}
-	return;
+	return (buff);
 }
 
 void	get_input( Server &server, int &fd, int &sock, fd_set &readFds )

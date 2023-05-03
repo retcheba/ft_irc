@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/03 18:24:46 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/03 18:52:51 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ std::string Server::getPassword( void )
     return (this->_password);
 }
 
-void    Server::newClient( int sockId, int sock, std::string username )
+void    Server::newClient( int sockId, int sock, std::string username, std::string nickname )
 {	
-	User user(username, "DEFAULT", sock);
+	User user(username, nickname, sock);
 
 	_clients.insert(std::pair<int, User>(sockId, user));
 	return;
@@ -87,8 +87,6 @@ void    Server::process( int socket )
 		std::cout << "find JOIN" << std::endl;
 	else if ( ( pos = _buff.find("CHANNEL") ) != std::string::npos )
 		std::cout << "find CHANNEL" << std::endl;
-	else if ( ( pos = _buff.find("NICKNAME") ) != std::string::npos )
-		std::cout << "find NICKNAME" << std::endl;
 	else
 	{
 		if (send(socket, "The only accepted commands are: SEND, JOIN, CHANNEL or NICKNAME\n", 65, 0) == -1)
