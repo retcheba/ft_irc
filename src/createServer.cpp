@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 21:58:20 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/03 17:58:12 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	set_username( int &sockClient, int &sock, fd_set &readFds, Server &server, 
 			
 			std::cout << buff << " connected" << std::endl;
 			
-			server.newClient( ( sockClient - sock ), buff );
+			server.newClient( ( sockClient - sock ), sockClient ,buff );
 		}
 	}
 	return;
@@ -205,7 +205,7 @@ void	get_input( Server &server, int &fd, int &sock, fd_set &readFds )
 				buff[num_bytes] = '\0';
 
 			server.setBuff(buff);
-			server.process( server.getUsername( fd - sock ), fd );
+			server.process( fd - sock );
 		}
 	}
 	return;

@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:17:31 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/02 22:28:55 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/03 18:10:53 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ static int 	checkFormat(std::string buff)
 }
 
 void	Server::sendMessage(std::string username, std::string buff, int socket)
-{
+{	
 	size_t pos;
-	std::map<int, std::string>::iterator    it = _clients.begin();
 	std::string clean = cleanString(buff, "SEND ");
 	
 	if (!checkFormat(buff))
@@ -52,12 +51,12 @@ void	Server::sendMessage(std::string username, std::string buff, int socket)
 			std::cerr << "Error Message can't be sent" << std::endl;
 		return;
 	}
-	for ( std::map<int, std::string>::iterator ite = _clients.end(); it != ite; it++ )
+	for ( std::map<int, struct User>::iterator it = this->_clients.begin(); it != _clients.end(); it++ )
 	{
-		pos = clean.find(it->second);
+		pos = clean.find(it->second.getUser());
 		if (pos != std::string::npos)
 		{
-			clean = cleanString(clean, it->second + " ");
+			clean = cleanString(clean, (it->second.getUser() + " "));
 			clean = username + " : " + clean + "\n";
 			
 			if (send(it->first + this->_sock, clean.c_str(), clean.length(), 0) == -1)

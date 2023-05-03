@@ -1,11 +1,11 @@
 SRC_DIR		= src
 OBJ_DIR		= obj
-SRCS		= main.cpp Server.cpp createServer.cpp signal.cpp sendMessage.cpp
+SRCS		= main.cpp Server.cpp createServer.cpp signal.cpp sendMessage.cpp User.cpp
 SRC			= $(addprefix src/, $(SRCS))
 OBJS		= $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 D_OBJS		= mkdir -p $(@D)
 CC			= c++
-CFLAGS		= -Wall -Wextra -Werror -std=c++98
+CFLAGS		= -Wall -Wextra -Werror -std=c++98 -g
 NAME		= ircserv
 RM			= rm -rf
 

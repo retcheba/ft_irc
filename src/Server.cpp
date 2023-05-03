@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 22:25:19 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/03 18:24:46 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,19 @@ std::string Server::getPassword( void )
     return (this->_password);
 }
 
-void    Server::newClient( int sock, std::string username )
-{
-    this->_clients.insert( std::pair<int, std::string>( sock, username) );
+void    Server::newClient( int sockId, int sock, std::string username )
+{	
+	User user(username, "DEFAULT", sock);
+
+	_clients.insert(std::pair<int, User>(sockId, user));
 	return;
 }
 
 void	Server::deleteClient( int sock )
 {
-	std::map<int, std::string>::iterator    ite = this->_clients.end();
-
-	for ( std::map<int, std::string>::iterator it = this->_clients.begin(); it != ite; it++ )
-	{
-		if ( it->first == sock )
-		{
-			this->_clients.erase(it);
-			break;
-		}
-	}
-	return;
+	std::map<int, User>::iterator it = _clients.find(sock);
+	
+	this->_clients.erase(it);
 }
 
 void	Server::deleteAllClient( void )
@@ -62,14 +56,9 @@ void	Server::deleteAllClient( void )
 
 std::string Server::getUsername( int sock )
 {
-	std::map<int, std::string>::iterator    ite = this->_clients.end();
-
-	for ( std::map<int, std::string>::iterator it = this->_clients.begin(); it != ite; it++ )
-	{
-		if ( it->first == sock )
-			return ( it->second );
-	}
-    return ("Client");
+	std::map<int, User>::iterator it = _clients.find(sock);
+	
+	return (it->second.getUser());
 }
 
 void    Server::setBuff( std::string buff )
@@ -84,14 +73,16 @@ void	Server::setSock(int sock) {
     return;
 }
 
-void    Server::process( std::string username, int socket )
+void    Server::process( int socket )
 {
+	std::map<int, User>::iterator it = _clients.find(socket);
 	size_t pos;
+	
 
 	if ( this->_buff.empty() )
         std::cerr << "Error: message is empty" << std::endl;
 	else if ( ( pos = _buff.find("SEND") ) != std::string::npos )
-		sendMessage(username, this->_buff, socket);
+		sendMessage(it->second.getUser(), this->_buff, socket);
 	else if ( ( pos = _buff.find("JOIN") ) != std::string::npos )
 		std::cout << "find JOIN" << std::endl;
 	else if ( ( pos = _buff.find("CHANNEL") ) != std::string::npos )
