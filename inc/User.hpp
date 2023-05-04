@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:19:18 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/04 19:15:33 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:56:50 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ class User
 
 		std::string _username;
 		std::string _nickname;
-		std::map<int, std::string> _channel;
 		int         _socket;
+		
+		std::string _channelStr[512];
+		int 		_channelIdx[512];
+		int			_index;
 
 };
 

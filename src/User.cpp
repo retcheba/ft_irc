@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:38 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/04 19:17:08 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 22:01:39 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ User::User()
 
 User::	User(std::string user, std::string nick, int sock) : _username(user), _nickname(nick), _socket(sock)
 {
+	_index = 0;
 }
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
@@ -72,8 +73,8 @@ void		User::setChan(std::string chan, bool admin) {
 	else
 		rule = 0;
 	
-	_channel.insert(std::pair<int, std::string>(rule, chan));
-	
+	_channelStr[_index++] = chan;
+	_channelIdx[_index++] = rule;
 }
 
 void		User::setSocket(int sock) {
@@ -83,48 +84,40 @@ void		User::setSocket(int sock) {
 
 bool User::findChannel(std::string chan) {
 	
-	std::map<int, std::string>::iterator it = _channel.begin();
-	
-	while (it != _channel.end())
+	for (int i = 0; i < _index; i++)
 	{
-		if (it->second == chan)
+		if (_channelStr[i] == chan)
 			return (true);
-		it++;
 	}
 	return (false);
 }
 
 bool		User::checkAdminChannel(std::string chan) {
 	
-	std::map<int, std::string>::iterator it = _channel.begin();
-
-	while (it != _channel.end())
+	for (int i = 0; i < _index; i++)
 	{
-		if (it->second == chan)
+		if (_channelStr[i] == chan)
 		{
-			if (it->first == 1)
+			if (_channelIdx[i] == 1)
 				return (true);
 			else
-				return (false);	
+				return (false);
 		}
-		it++;
 	}
 	return (false);
 }
 
 void		User::deleteChannel(std::string chan) {
 	
-	std::map<int, std::string>::iterator it = _channel.begin();
-	
-	while (it != _channel.end())
+	for (int i = 0; i < _index; i++)
 	{
-		if (it->second == chan)
+		if (_channelStr[i] == chan)
 		{
-			_channel.erase(it);
-			break;
+			for (size_t l = 0; l < _channelStr[i].length(); l++)
+				_channelStr[i][l] = '\0';
 		}
-		it++;
 	}
+	
 }
 
 /*
