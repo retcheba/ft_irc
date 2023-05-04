@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/04 21:12:42 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/04 21:42:28 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ public:
     int 	        alreadyNickname(std::string buff);
     
     // SEND
-    void            sendMessagePrivate( std::string username, std::string buff, int socket );
+    void            sendMessagePrivate( std::map<int, User>::iterator user, std::string buff );
     void	        sendMessageChannel( std::map<int, User>::iterator user, std::string buff );
     
     // JOIN
@@ -84,8 +84,9 @@ void			ignore_message( int &sockClient, fd_set &readFds );
 bool	        check_password( int &sockClient, fd_set &readFds, Server &server );
 std::string		set_username( int &sockClient, fd_set &readFds );
 void	        set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, std::string user );
-
 void	        get_input( Server &server, int &fd, int &sock, fd_set &readFds );
+
 void	        sig_init(void);
+void            send_out( int sock, std::string str );
 
 #endif

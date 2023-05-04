@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/04 21:07:28 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/04 21:37:32 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,21 @@ void    Server::process( int socket )
 	if ( ( pos = _buff.find("SEND #") ) != std::string::npos )
 		sendMessageChannel(user, this->_buff);
 	else if ( ( pos = _buff.find("SEND") ) != std::string::npos )
-		sendMessagePrivate(user->second.getUser(), this->_buff, socket);
+		sendMessagePrivate(user, this->_buff);
 	else if ( ( pos = _buff.find("JOIN") ) != std::string::npos )
 		createChannel(user, this->_buff);
 	// else if ( ( pos = _buff.find("KICK") ) != std::string::npos )
 	// 	kickChannel(user, this->_buff);
 	else
-	{
-		if (send((socket + this->_sock), "Accepted commands: 'SEND', JOIN, 'SEND #' or 'KICK'\r\n", 53, 0) == -1)
-			std::cerr << "Error Message can't be sent" << std::endl;
-	}
+		send_out((socket + this->_sock), "Accepted commands: 'SEND', JOIN, 'SEND #' or 'KICK'\r\n");
+	return;
+}
+
+void	send_out( int sock, std::string str )
+{
+	size_t	size = str.size();
+
+	if ( send(sock, str.c_str(), size, 0) == -1 )
+		std::cerr << "Error Message can't be sent" << std::endl;
 	return;
 }

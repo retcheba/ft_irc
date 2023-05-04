@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:17:31 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/04 19:25:42 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:44:05 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool 	Server::checkFormatMessage(std::string buff, std::string remove, int i)
 	return (true);
 }
 
-void	Server::sendMessagePrivate(std::string username, std::string buff, int socket)
+void	Server::sendMessagePrivate(std::map<int, User>::iterator user, std::string buff)
 {	
 	size_t pos;
 	std::string clean = cleanString(buff, "SEND ");
@@ -94,22 +94,21 @@ void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string 
 	
 	if (!checkFormatMessage(buff, "SEND #", 6))
 	{
-		if (send(user->second.getSocket(), "Usage: SEND <#channel> <message>\n", 34, 0) == -1)
-			std::cerr << "Error Message can't be sent" << std::endl;
+		answer = "Usage: SEND <#channel> <message>\r\n";
+		send_out(user->second.getSocket(), answer);
 		return;
 	}
 	channelName = cleanStringCmd(buff, "SEND #");
 	if (checkAlreadyChannel(channelName) == false)
 	{
-		if (send(user->second.getSocket(), "channel has not been created\n", 30, 0) == -1)
-			std::cerr << "Error Message can't be sent" << std::endl;
+		answer = "channel has not been created\r\n";
+		send_out(user->second.getSocket(), answer);
 		return;
 	}
 	if (user->second.findChannel(channelName) == false)
 	{
-		answer = "You have not join the channel <" + channelName + ">\n";
-		if (send(user->second.getSocket(), answer.c_str(), answer.length(), 0) == -1)
-			std::cerr << "Error Message can't be sent" << std::endl;
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(user->second.getSocket(), answer);
 		return;
 	}
 	std::map<int, User>::iterator it = this->_clients.begin();
@@ -118,9 +117,8 @@ void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string 
 		if (it->second.findChannel(channelName) == true)
 		{
 			message = buff.substr(( strlen("SEND #") + channelName.length() + 1 ), buff.length());
-			answer = "#" + channelName + " " + user->second.getNick() + ": " + message + "\n"; 
-			if (send(it->second.getSocket(), answer.c_str(), answer.length(), 0) == -1)
-				std::cerr << "Error Message can't be sent" << std::endl;
+			answer = "#" + channelName + " " + user->second.getNick() + ": " + message + "\r\n"; 
+			send_out(it->second.getSocket(), answer);
 		}
 		it++;
 	}
