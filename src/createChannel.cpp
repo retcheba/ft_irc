@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:53:04 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/04 18:29:47 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:48:01 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static int 	checkFormatJoin(std::string buff)
 
 int 	Server::checkAlreadyChannel(std::string buff)
 {	
-	std::map<int, std::string>::iterator channel = _channel.begin();
+	std::vector<std::string>::iterator it = _channel.begin();
 	
-	while (channel != _channel.end())
+	while (it != _channel.end())
 	{
-		if (channel->second == buff)
+		if (*it == buff)
 			return (true);
-		channel++;
+		it++;
 	}
 	return (false);
 }
@@ -68,7 +68,7 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 		return;
 	}
 
-	_channel.insert(std::pair<int, std::string>(user->second.getSocket(), channelName));
+	_channel.push_back(channelName);
 	user->second.setChan(channelName, true);
 	answer = "Channel: <" + channelName + "> has been create\n";
 	

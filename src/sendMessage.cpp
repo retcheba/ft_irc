@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:17:31 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/04 21:44:05 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:46:07 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,37 +54,37 @@ bool 	Server::checkFormatMessage(std::string buff, std::string remove, int i)
 	return (true);
 }
 
-void	Server::sendMessagePrivate(std::map<int, User>::iterator user, std::string buff)
-{	
-	size_t pos;
-	std::string clean = cleanString(buff, "SEND ");
+// void	Server::sendMessagePrivate(std::map<int, User>::iterator user, std::string buff)
+// {	
+// 	size_t pos;
+// 	std::string clean = cleanString(buff, "SEND ");
 	
-	if (!checkFormatMessage(buff, "SEND ", 5))
-	{
-		if (send(socket, "Usage: SEND <username> <message>\n", 34, 0) == -1)
-			std::cerr << "Error Message can't be sent" << std::endl;
-		return;
-	}
-	for ( std::map<int, struct User>::iterator it = this->_clients.begin(); it != _clients.end(); it++ )
-	{
-		pos = clean.find(it->second.getUser());
-		if (pos != std::string::npos)
-		{
-			clean = cleanString(clean, (it->second.getUser() + " "));
-			clean = username + " : " + clean + "\n";
+// 	if (!checkFormatMessage(buff, "SEND ", 5))
+// 	{
+// 		if (send(socket, "Usage: SEND <username> <message>\n", 34, 0) == -1)
+// 			std::cerr << "Error Message can't be sent" << std::endl;
+// 		return;
+// 	}
+// 	for ( std::map<int, struct User>::iterator it = this->_clients.begin(); it != _clients.end(); it++ )
+// 	{
+// 		pos = clean.find(it->second.getUser());
+// 		if (pos != std::string::npos)
+// 		{
+// 			clean = cleanString(clean, (it->second.getUser() + " "));
+// 			clean = username + " : " + clean + "\n";
 			
-			if (send(it->first + this->_sock, clean.c_str(), clean.length(), 0) == -1)
-				std::cerr << "Error Message can't be sent" << std::endl;
-			break;
-		}
-	}
-	if (pos == std::string::npos)
-	{
-		if (send(socket, "Error : Username not found\n", 27, 0) == -1)
-			std::cerr << "Error Message can't be sent" << std::endl;
-	}
+// 			if (send(it->first + this->_sock, clean.c_str(), clean.length(), 0) == -1)
+// 				std::cerr << "Error Message can't be sent" << std::endl;
+// 			break;
+// 		}
+// 	}
+// 	if (pos == std::string::npos)
+// 	{
+// 		if (send(socket, "Error : Username not found\n", 27, 0) == -1)
+// 			std::cerr << "Error Message can't be sent" << std::endl;
+// 	}
 		
-}
+// }
 
 void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string buff) {	
 		

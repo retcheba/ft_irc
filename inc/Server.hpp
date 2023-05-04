@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/04 21:42:28 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:46:47 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <iostream>
 # include <string>
 # include <map>
+# include <vector>
 # include <algorithm>
 # include <cstring>
 # include <cerrno>
@@ -73,7 +74,7 @@ public:
         std::string                 _buff;
         std::string                 _password;
         std::map<int, User>         _clients;
-        std::map<int, std::string>  _channel;
+        std::vector<std::string>    _channel;
 
 };
 
@@ -82,11 +83,13 @@ void	        launch_server( Server &server, int &sock );
 
 void			ignore_message( int &sockClient, fd_set &readFds );
 bool	        check_password( int &sockClient, fd_set &readFds, Server &server );
+
 std::string		set_username( int &sockClient, fd_set &readFds );
 void	        set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, std::string user );
-void	        get_input( Server &server, int &fd, int &sock, fd_set &readFds );
 
+void	        get_input( Server &server, int &fd, int &sock, fd_set &readFds );
 void	        sig_init(void);
+
 void            send_out( int sock, std::string str );
 
 #endif
