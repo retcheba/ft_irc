@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/04 19:22:00 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:07:28 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,10 @@ void    Server::process( int socket )
 {
 	std::map<int, User>::iterator user = _clients.find(socket);
 	size_t pos;
-	
 
-	if ( this->_buff.empty() )
-        std::cerr << "Error: message is empty" << std::endl;
-	else if ( ( pos = _buff.find("SEND #") ) != std::string::npos )
+	if ( ( pos = _buff.find("SEND #") ) != std::string::npos )
 		sendMessageChannel(user, this->_buff);
-	else if ( ( pos = _buff.find("SEND ") ) != std::string::npos )
+	else if ( ( pos = _buff.find("SEND") ) != std::string::npos )
 		sendMessagePrivate(user->second.getUser(), this->_buff, socket);
 	else if ( ( pos = _buff.find("JOIN") ) != std::string::npos )
 		createChannel(user, this->_buff);
@@ -104,7 +101,7 @@ void    Server::process( int socket )
 	// 	kickChannel(user, this->_buff);
 	else
 	{
-		if (send(socket, "The only accepted commands are: SEND, JOIN or CHANNEL\n", 65, 0) == -1)
+		if (send((socket + this->_sock), "Accepted commands: 'SEND', JOIN, 'SEND #' or 'KICK'\r\n", 53, 0) == -1)
 			std::cerr << "Error Message can't be sent" << std::endl;
 	}
 	return;
