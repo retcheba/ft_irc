@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/03 18:52:51 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 14:35:05 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,19 @@ void	Server::setSock(int sock) {
     return;
 }
 
+int 	Server::alreadyNickname(std::string buff)
+{	
+	std::map<int, User>::iterator user = _clients.begin();
+	
+	while (user != _clients.end())
+	{
+		if (user->second.getNick() == buff)
+			return (0);
+		user++;
+	}
+	return (1);
+}
+
 void    Server::process( int socket )
 {
 	std::map<int, User>::iterator it = _clients.find(socket);
@@ -89,7 +102,7 @@ void    Server::process( int socket )
 		std::cout << "find CHANNEL" << std::endl;
 	else
 	{
-		if (send(socket, "The only accepted commands are: SEND, JOIN, CHANNEL or NICKNAME\n", 65, 0) == -1)
+		if (send(socket, "The only accepted commands are: SEND, JOIN or CHANNEL\n", 65, 0) == -1)
 			std::cerr << "Error Message can't be sent" << std::endl;
 	}
 	return;

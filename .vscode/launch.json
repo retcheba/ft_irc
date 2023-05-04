@@ -5,7 +5,7 @@
 		"type": "cppdbg",
 		"request": "launch",
 		"program": "${workspaceFolder}/ircserv",
-		"args": ["8080", "lol"],
+		"args": ["8085", "lol"],
 		"stopAtEntry": false,
 		"cwd": "${fileDirname}",
 		"environment": [],

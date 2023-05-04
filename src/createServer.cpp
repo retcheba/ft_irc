@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/03 18:51:10 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 14:46:13 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	launch_server( Server &server, int &sock )
 						
 						lock = check_password(sockClient, readFds, server);		
 
-						std::string nick = set_nickname(sockClient, readFds, lock);
+						std::string nick = set_nickname(sockClient, readFds, server, lock);
 						set_username(sockClient, sock, readFds, server, lock, nick);
 					}
 				} 
@@ -168,7 +168,7 @@ void	set_username( int &sockClient, int &sock, fd_set &readFds, Server &server, 
 			else
 				user[num_bytes] = '\0';
 			
-			std::cout << user << " connected" << std::endl;
+			std::cout << user << "(" << nick << ")" << " connected" << std::endl;
 			
 			server.newClient( ( sockClient - sock ), sockClient ,user, nick );
 		}
@@ -176,7 +176,7 @@ void	set_username( int &sockClient, int &sock, fd_set &readFds, Server &server, 
 	return;
 }
 
-std::string		set_nickname( int &sockClient, fd_set &readFds, bool &lock )
+std::string		set_nickname( int &sockClient, fd_set &readFds, Server &server, bool &lock )
 {
 	char	buff[1024];
 
@@ -190,7 +190,7 @@ std::string		set_nickname( int &sockClient, fd_set &readFds, bool &lock )
 		}
 
 		int num_bytes = recv(sockClient, buff, 1023, 0);
-	
+		
 		if (num_bytes == -1)
 		{
 			std::cerr << "Error during connection" << std::endl;
@@ -203,12 +203,21 @@ std::string		set_nickname( int &sockClient, fd_set &readFds, bool &lock )
 			FD_CLR(sockClient, &readFds);
 			break;
 		}
-		else if ( buff[0] != '\0' && buff[0] != '\n' )
+		if ( buff[0] != '\0' && buff[0] != '\n' )
 		{
 			if ( buff[num_bytes - 1] == '\n' )
 				buff[num_bytes - 1] = '\0';
 			else
 				buff[num_bytes] = '\0';
+		}
+		if (!server.alreadyNickname(buff))
+		{
+			if (send(sockClient, "Nickname are already use !\n", 28, 0) == -1)
+			{
+				std::cerr << "Error during connection" << std::endl;
+				break;
+			}
+			buff[0] = '\0';
 		}
 	}
 	return (buff);

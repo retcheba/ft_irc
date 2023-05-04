@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/03 18:52:40 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 14:24:23 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ public:
     void        setSock( int sock );
     void        process( int socket );
 
+    int 	    alreadyNickname(std::string buff);
     // SEND
     void        sendMessage(std::string username, std::string buff, int socket );
     
@@ -68,7 +69,7 @@ std::string     cleanString(std::string buff, std::string remove);
 int		        create_server( int port );
 void	        launch_server( Server &server, int &sock );
 bool	        check_password( int &sockClient, fd_set &readFds, Server &server );
-std::string		set_nickname( int &sockClient, fd_set &readFds, bool &lock );
+std::string		set_nickname( int &sockClient, fd_set &readFds, Server &server, bool &lock );
 void	        set_username( int &sockClient, int &sock, fd_set &readFds, Server &server, bool &lock, std::string nick );
 void	        get_input( Server &server, int &fd, int &sock, fd_set &readFds );
 void	        sig_init(void);
