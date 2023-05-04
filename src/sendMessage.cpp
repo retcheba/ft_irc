@@ -6,13 +6,13 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:17:31 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/03 18:10:53 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 19:25:42 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
 	
-std::string	 cleanString(std::string buff, std::string remove)
+std::string	 Server::cleanString(std::string buff, std::string remove)
 {
 	size_t pos;
 	
@@ -22,30 +22,44 @@ std::string	 cleanString(std::string buff, std::string remove)
 	return (buff);	
 }
 
-static int 	checkFormat(std::string buff)
+std::string	 Server::cleanStringCmd(std::string buff, std::string remove)
 {
-	int i = 5;
+	int i = 0;
+	size_t pos;
+	std::string clean;
+	
+	pos = buff.find(remove);
+	if (pos != std::string::npos)
+		buff.erase(pos, remove.length());
+	while (buff[i] != ' ' && buff[i] != '\0' && ( buff[i] > 32 && buff[i] < 127))
+		i++;
+	clean = buff.substr(0, i);
+	return (clean);
+}
+
+bool 	Server::checkFormatMessage(std::string buff, std::string remove, int i)
+{
 	size_t pos;
 	std::string user;
 
-	pos = buff.find("SEND ");
+	pos = buff.find(remove);
 	if (pos == std::string::npos || pos != 0)
-		return (0);
+		return (false);
 	while (buff[i] != ' ' && buff[i] != '\0' && ( buff[i] > 32 && buff[i] < 127))
 		i++;
 	if (buff[i] != ' ')
-		return (0);
+		return (false);
 	if (buff[i + 1] == '\0')
-		return (0);
-	return (1);
+		return (false);
+	return (true);
 }
 
-void	Server::sendMessage(std::string username, std::string buff, int socket)
+void	Server::sendMessagePrivate(std::string username, std::string buff, int socket)
 {	
 	size_t pos;
 	std::string clean = cleanString(buff, "SEND ");
 	
-	if (!checkFormat(buff))
+	if (!checkFormatMessage(buff, "SEND ", 5))
 	{
 		if (send(socket, "Usage: SEND <username> <message>\n", 34, 0) == -1)
 			std::cerr << "Error Message can't be sent" << std::endl;
@@ -72,3 +86,42 @@ void	Server::sendMessage(std::string username, std::string buff, int socket)
 		
 }
 
+void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string buff) {	
+		
+	std::string answer;
+	std::string message;
+	std::string channelName;
+	
+	if (!checkFormatMessage(buff, "SEND #", 6))
+	{
+		if (send(user->second.getSocket(), "Usage: SEND <#channel> <message>\n", 34, 0) == -1)
+			std::cerr << "Error Message can't be sent" << std::endl;
+		return;
+	}
+	channelName = cleanStringCmd(buff, "SEND #");
+	if (checkAlreadyChannel(channelName) == false)
+	{
+		if (send(user->second.getSocket(), "channel has not been created\n", 30, 0) == -1)
+			std::cerr << "Error Message can't be sent" << std::endl;
+		return;
+	}
+	if (user->second.findChannel(channelName) == false)
+	{
+		answer = "You have not join the channel <" + channelName + ">\n";
+		if (send(user->second.getSocket(), answer.c_str(), answer.length(), 0) == -1)
+			std::cerr << "Error Message can't be sent" << std::endl;
+		return;
+	}
+	std::map<int, User>::iterator it = this->_clients.begin();
+	while (it != this->_clients.end())
+	{
+		if (it->second.findChannel(channelName) == true)
+		{
+			message = buff.substr(( strlen("SEND #") + channelName.length() + 1 ), buff.length());
+			answer = "#" + channelName + " " + user->second.getNick() + ": " + message + "\n"; 
+			if (send(it->second.getSocket(), answer.c_str(), answer.length(), 0) == -1)
+				std::cerr << "Error Message can't be sent" << std::endl;
+		}
+		it++;
+	}
+}

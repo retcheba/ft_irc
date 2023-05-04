@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:19:18 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/03 16:49:14 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 19:15:33 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <string>
+# include <map>
 
 class User
 {
@@ -33,15 +34,20 @@ class User
 		// SETTER
 		void		setUser(std::string user);
 		void		setNick(std::string nick);
+		void		setChan(std::string chan, bool admin);
 		void		setSocket(int sock);
 
-	protected:
+		bool 		findChannel(std::string chan);
+		bool		checkAdminChannel(std::string chan);
+
+		void		deleteChannel(std::string chan);
+
+	private:
 
 		std::string _username;
 		std::string _nickname;
+		std::map<int, std::string> _channel;
 		int         _socket;
-
-	private:
 
 };
 
