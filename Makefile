@@ -1,6 +1,6 @@
 SRC_DIR		= src
 OBJ_DIR		= obj
-SRCS		= main.cpp Server.cpp createServer.cpp signal.cpp sendMessage.cpp User.cpp createChannel.cpp
+SRCS		= main.cpp Server.cpp createServer.cpp signal.cpp sendMessage.cpp User.cpp createChannel.cpp kickChannel.cpp
 SRC			= $(addprefix src/, $(SRCS))
 OBJS		= $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 D_OBJS		= mkdir -p $(@D)

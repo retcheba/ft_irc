@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/04 21:59:11 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 22:07:46 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void    Server::process( int socket )
 		sendMessagePrivate(user, this->_buff);
 	else if ( ( pos = _buff.find("JOIN") ) != std::string::npos )
 		createChannel(user, this->_buff);
-	// else if ( ( pos = _buff.find("KICK") ) != std::string::npos )
-	// 	kickChannel(user, this->_buff);
+	else if ( ( pos = _buff.find("KICK") ) != std::string::npos )
+		kickChannel(user, this->_buff);
 	else
 		send_out((socket + this->_sock), "Accepted commands: 'SEND', JOIN, 'SEND #' or 'KICK'\r\n");
 	return;

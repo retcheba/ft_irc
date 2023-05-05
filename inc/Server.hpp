@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/04 21:46:47 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 22:07:42 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ public:
     void		    createChannel(std::map<int, User>::iterator user, std::string buff);
 
     // KICK
-    // void	kickChannel(std::map<int, User>::iterator user, std::string buff);
+    void	kickChannel(std::map<int, User>::iterator user, std::string buff);
 
     // UTILIES CMD
     bool 	        checkFormatMessage(std::string buff, std::string remove, int i);

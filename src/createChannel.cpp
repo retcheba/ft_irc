@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:53:04 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/04 21:48:01 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/04 22:26:14 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 	
 	if (!checkFormatJoin(buff))
 	{
-		if (send(user->second.getSocket(), "Usage: JOIN <#channel>\n", 24, 0) == -1)
+		if (send(user->second.getSocket(), "Usage: JOIN <#channel\r\n", 24, 0) == -1)
 			std::cerr << "Error: Message can't be sent" << std::endl;
 		return;
 	}
@@ -56,13 +56,13 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 	{
 		if (user->second.findChannel(channelName) == true)
 		{
-			answer = "You are already in channel <" + channelName + ">\n";
+			answer = "You are already in channel #" + channelName + "\r\n";
 			if (send(user->second.getSocket(), answer.c_str(), answer.length(), 0) == -1)
 				std::cerr << "Error: Message can't be sent" << std::endl;
 			return;
 		}
 		user->second.setChan(channelName, false);
-		answer = "You have join channel <" + channelName + ">\n";
+		answer = "You have join channel #" + channelName + "\r\n";
 		if (send(user->second.getSocket(), answer.c_str(), answer.length(), 0) == -1)
 			std::cerr << "Error: Message can't be sent" << std::endl;
 		return;
@@ -70,7 +70,7 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 
 	_channel.push_back(channelName);
 	user->second.setChan(channelName, true);
-	answer = "Channel: <" + channelName + "> has been create\n";
+	answer = "Channel: #" + channelName + " has been created\r\n";
 	
 	if (send(user->second.getSocket(), answer.c_str(), answer.length(), 0) == -1)
 		std::cerr << "Error: Message can't be sent" << std::endl;

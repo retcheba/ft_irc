@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:38 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/04 22:01:39 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/05 14:38:26 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ void		User::setChan(std::string chan, bool admin) {
 	if (admin == true)
 		rule = 1;
 	else
-		rule = 0;
+		rule = -1;
 	
-	_channelStr[_index++] = chan;
-	_channelIdx[_index++] = rule;
+	_channelStr[_index] = chan;
+	_channelIdx[_index] = rule;
+	_index += 1;
 }
 
 void		User::setSocket(int sock) {
