@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/05 21:15:48 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/05 23:03:39 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,12 @@ bool		Channel::getAccesUser(int socketUser, std::string channelName) {
 	}
 	return (false);
 }
+
+std::string 	Channel::getTopic() {
+	
+	return (this->_topic);
+}
+
 
 bool	Channel::findUser(int socketUser, std::string user, std::string channelName) {
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 21:44:07 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/05 23:04:13 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,18 @@ public:
     // KICK
     void	        kickChannel(std::map<int, User>::iterator user, std::string buff);
 
+    // TOPIC
+    void	        topic(std::map<int, User>::iterator user, std::string buff);
+    void	        topicChange(std::map<int, User>::iterator user, std::string buff);
+    void	        topicView(std::map<int, User>::iterator user, std::string buff);
+    
     // UTILIES CMD
     std::map<std::string, Channel>::iterator 	findChannelIterator(std::string channelName);
     bool 	        checkFormatMessage(std::string buff, std::string remove, int i);
     std::string	    cleanStringCmd(std::string buff, std::string remove);
     std::string	    cleanString(std::string buff, std::string remove);
-
+    bool 	        checkLastMessage(std::string buff, std::string cmd);
+    
     private:
 
         int                         _sock;

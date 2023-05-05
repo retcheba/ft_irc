@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:18:53 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/05 20:12:43 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/05 23:03:17 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ class Channel
 
 		//GETTER
 		bool	getAccesUser(int socketUser, std::string channelName);
+		std::string 	getTopic();
 
 		bool	findUser(int socketUser, std::string user, std::string channelName);
 		bool	findAdminUser(int socketUser, std::string user, std::string channelName);
