@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   createServer.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/04 21:40:32 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/05 16:35:54 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,6 +315,9 @@ void	get_input( Server &server, int &fd, int &sock, fd_set &readFds )
 		{
 			std::cout << server.getUsername( fd - sock ) << " disconnected" << std::endl;
 			server.deleteClient( fd - sock );
+			server.deleteBuff();
+			if (!buff)
+				free (buff);
 			close(fd);
 			FD_CLR(fd, &readFds);
 			break;
@@ -340,9 +343,11 @@ void	get_input( Server &server, int &fd, int &sock, fd_set &readFds )
 			else
 				buff[num_bytes] = '\0';
 
-			server.setBuff(buff);
+			server.setBuff(static_cast<std::string>(buff));
 			server.process( fd - sock );
+			server.deleteBuff();
 		}
 	}
+	buff[0] = '\0';
 	return;
 }

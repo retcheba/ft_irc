@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/04 22:07:46 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/05 16:22:48 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,12 @@ std::string Server::getUsername( int sock )
 void    Server::setBuff( std::string buff )
 {
     this->_buff = buff;
+    return;
+}
+
+void    Server::deleteBuff( void )
+{
+    this->_buff = "\0";
     return;
 }
 
