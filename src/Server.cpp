@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 17:45:52 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/05 21:29:53 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void    Server::setBuff( std::string buff )
     return;
 }
 
-void    Server::deleteBuff( void )
+void    Server::clearBuff( void )
 {
-    this->_buff = "\0";
+    this->_buff.clear();
     return;
 }
 
@@ -107,14 +107,5 @@ void    Server::process( int socket )
 		kickChannel(user, this->_buff);
 	else
 		send_out((socket + this->_sock), "Accepted commands:\n- private message\n * 'SEND <nickname> <message>'\n- channel\n * 'JOIN <#channel>'\n * 'SEND <#channel> <message>'\n * 'KICK <#channel> <nickname>'\n * 'INVITE <#channel> <nickname>'\n * 'TOPIC <#channel>'\n * 'TOPIC <#channel> <topic>'\n * 'MODE -(i, t, k, o) <#channel>'\r\n");
-	return;
-}
-
-void	send_out( int sock, std::string str )
-{
-	size_t	size = str.size();
-
-	if ( send(sock, str.c_str(), size, 0) == -1 )
-		std::cerr << "Error Message can't be sent" << std::endl;
 	return;
 }

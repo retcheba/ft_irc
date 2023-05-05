@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 16:35:54 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/05 21:29:05 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	ignore_message( int &sockClient, fd_set &readFds )
 {
 	char	buff[1024];
 
-	buff[0] = '\0';
+	clean_buff(buff);
 	while ( buff[0] == '\0' )
 	{
 		int num_bytes = recv(sockClient, buff, 1023, MSG_DONTWAIT);
@@ -115,17 +115,19 @@ void	ignore_message( int &sockClient, fd_set &readFds )
 			break;
 		}
 		else
-				buff[num_bytes] = '\0';
+			buff[num_bytes] = '\0';
 	}
 	return;
 }
 
 bool	check_password( int &sockClient, fd_set &readFds, Server &server )
 {
-	char	buff[1024];
-	bool	lock = false;
+	char		buff[1024];
+	bool		lock = false;
+	std::string	result;
+	bool		OK = false;
 
-	buff[0] = '\0';
+	clean_buff(buff);
 	while ( ( buff[0] == '\0' || buff[0] == '\n' || buff[0] == '\r' ) && !lock )
 	{
 		if (send(sockClient, "Password: \r\n", 12, 0) == -1)
@@ -150,29 +152,22 @@ bool	check_password( int &sockClient, fd_set &readFds, Server &server )
 		}
 		else if ( buff[0] != '\0' && buff[0] != '\n' && buff[0] != '\r' )
 		{
-			if ( num_bytes >= 2 )
+			OK = check_end_of_buff(buff, num_bytes);
+
+			if (result.empty())
+				result = static_cast<std::string>(buff);
+			else
+				result.append(static_cast<std::string>(buff));
+
+			if (OK)
 			{
-				if ( buff[num_bytes - 2] == '\r' )
-					buff[num_bytes - 2] = '\0';
-				else if ( buff[num_bytes - 1] == '\n' || buff[num_bytes - 1] == '\r' )
-					buff[num_bytes - 1] = '\0';
+				if ( server.getPassword().compare(result) == 0 )
+					lock = true;
 				else
-					buff[num_bytes] = '\0';
-			}
-			else if ( num_bytes >= 1 )
-			{
-				if ( buff[num_bytes - 1] == '\n' || buff[num_bytes - 1] == '\r' )
-					buff[num_bytes - 1] = '\0';
-				else
-					buff[num_bytes] = '\0';
+					clean_buff(buff);
 			}
 			else
-				buff[num_bytes] = '\0';
-			
-			if ( server.getPassword().compare((std::string)buff) == 0 )
-				lock = true;
-			else
-				buff[0] = '\0';
+				clean_buff(buff);
 		}
 	}
 	return (lock);
@@ -180,9 +175,11 @@ bool	check_password( int &sockClient, fd_set &readFds, Server &server )
 
 std::string		set_username( int &sockClient, fd_set &readFds )
 {
-	char	buff[1024];
+	char		buff[1024];
+	std::string	result;
+	bool		OK = false;
 
-	buff[0] = '\0';
+	clean_buff(buff);
 	while ( buff[0] == '\0' || buff[0] == '\n' || buff[0] == '\r' )
 	{
 		if (send(sockClient, "Username: \r\n", 12, 0) == -1)
@@ -207,34 +204,27 @@ std::string		set_username( int &sockClient, fd_set &readFds )
 		}
 		else if ( buff[0] != '\0' && buff[0] != '\n' && buff[0] != '\r' )
 		{
-			if ( num_bytes >= 2 )
-			{
-				if ( buff[num_bytes - 2] == '\r' )
-					buff[num_bytes - 2] = '\0';
-				else if ( buff[num_bytes - 1] == '\n' || buff[num_bytes - 1] == '\r' )
-					buff[num_bytes - 1] = '\0';
-				else
-					buff[num_bytes] = '\0';
-			}
-			else if ( num_bytes >= 1 )
-			{
-				if ( buff[num_bytes - 1] == '\n' || buff[num_bytes - 1] == '\r' )
-					buff[num_bytes - 1] = '\0';
-				else
-					buff[num_bytes] = '\0';
-			}
+			OK = check_end_of_buff(buff, num_bytes);
+
+			if (result.empty())
+				result = static_cast<std::string>(buff);
 			else
-				buff[num_bytes] = '\0';
+				result.append(static_cast<std::string>(buff));
+			
+			if (!OK)
+				clean_buff(buff);
 		}
 	}
-	return (buff);
+	return (result);
 }
 
 void	set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, std::string user )
 {
-	char	buff[1024];
+	char		buff[1024];
+	std::string	result;
+	bool		OK = false;
 
-	buff[0] = '\0';
+	clean_buff(buff);
 	while ( buff[0] == '\0' || buff[0] == '\n' || buff[0] == '\r' )
 	{
 		if (send(sockClient, "Nickname: \r\n", 12, 0) == -1)
@@ -259,24 +249,15 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, 
 		}
 		else if ( buff[0] != '\0' && buff[0] != '\n' && buff[0] != '\r' )
 		{
-			if ( num_bytes >= 2 )
-			{
-				if ( buff[num_bytes - 2] == '\r' )
-					buff[num_bytes - 2] = '\0';
-				else if ( buff[num_bytes - 1] == '\n' || buff[num_bytes - 1] == '\r' )
-					buff[num_bytes - 1] = '\0';
-				else
-					buff[num_bytes] = '\0';
-			}
-			else if ( num_bytes >= 1 )
-			{
-				if ( buff[num_bytes - 1] == '\n' || buff[num_bytes - 1] == '\r' )
-					buff[num_bytes - 1] = '\0';
-				else
-					buff[num_bytes] = '\0';
-			}
+			OK = check_end_of_buff(buff, num_bytes);
+
+			if (result.empty())
+				result = static_cast<std::string>(buff);
 			else
-				buff[num_bytes] = '\0';
+				result.append(static_cast<std::string>(buff));
+			
+			if (!OK)
+				clean_buff(buff);
 		}
 		if (!server.alreadyNickname(buff))
 		{
@@ -288,10 +269,10 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, 
 			buff[0] = '\0';
 		}
 	}
-	if ( buff[0] != '\0' && buff[0] != '\n' && buff[0] != '\r' )
+	if ( !result.empty() )
 	{
-		std::cout << user << "(" << buff << ")" << " connected" << std::endl;
-		server.newClient( ( sockClient - sock ), sockClient ,user, buff );
+		std::cout << user << "(" << result << ")" << " connected" << std::endl;
+		server.newClient( ( sockClient - sock ), sockClient ,user, result );
 	}
 	
 	return;
@@ -299,9 +280,11 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, 
 
 void	get_input( Server &server, int &fd, int &sock, fd_set &readFds )
 {
-	char	buff[1024];
+	char		buff[1024];
+	std::string	result;
+	bool		OK = false;
 
-	buff[0] = '\0';
+	clean_buff(buff);
 	while ( buff[0] == '\0' )
 	{
 		int num_bytes = recv(fd, buff, 1023, 0);
@@ -311,43 +294,36 @@ void	get_input( Server &server, int &fd, int &sock, fd_set &readFds )
 			std::cerr << "Error during message reception" << std::endl;
 			break;
 		}
-		else if (num_bytes == 0) 
+		else if (num_bytes == 0)
 		{
 			std::cout << server.getUsername( fd - sock ) << " disconnected" << std::endl;
 			server.deleteClient( fd - sock );
-			server.deleteBuff();
+			server.clearBuff();
 			if (!buff)
-				free (buff);
+				free(buff);
 			close(fd);
 			FD_CLR(fd, &readFds);
 			break;
 		} 
 		else
 		{
-			if ( num_bytes >= 2 )
+			OK = check_end_of_buff(buff, num_bytes);
+
+			if (result.empty())
+				result = static_cast<std::string>(buff);
+			else
+				result.append(static_cast<std::string>(buff));
+			
+			if (OK)
 			{
-				if ( buff[num_bytes - 2] == '\r' )
-					buff[num_bytes - 2] = '\0';
-				else if ( buff[num_bytes - 1] == '\n' || buff[num_bytes - 1] == '\r' )
-					buff[num_bytes - 1] = '\0';
-				else
-					buff[num_bytes] = '\0';
-			}
-			else if ( num_bytes >= 1 )
-			{
-				if ( buff[num_bytes - 1] == '\n' || buff[num_bytes - 1] == '\r' )
-					buff[num_bytes - 1] = '\0';
-				else
-					buff[num_bytes] = '\0';
+				server.setBuff(result);
+				server.process( fd - sock );
+				server.clearBuff();
 			}
 			else
-				buff[num_bytes] = '\0';
-
-			server.setBuff(static_cast<std::string>(buff));
-			server.process( fd - sock );
-			server.deleteBuff();
+				clean_buff(buff);
 		}
 	}
-	buff[0] = '\0';
+	clean_buff(buff);
 	return;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 20:41:10 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/05 21:44:07 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,10 @@ public:
 	void		deleteAllClient( void );
     std::string getUsername( int sock );
     void        setBuff( std::string buff );
-    void        deleteBuff( void );
+    void        clearBuff( void );
     void        setSock( int sock );
     void        process( int socket );
-
-    int 	        alreadyNickname(std::string buff);
-    
-    std::map<std::string, Channel>::iterator 	findChannelIterator(std::string channelName);
+    int			alreadyNickname(std::string buff);
 
     // SEND
     void            sendMessagePrivate( std::map<int, User>::iterator user, std::string buff );
@@ -70,6 +67,7 @@ public:
     void	        kickChannel(std::map<int, User>::iterator user, std::string buff);
 
     // UTILIES CMD
+    std::map<std::string, Channel>::iterator 	findChannelIterator(std::string channelName);
     bool 	        checkFormatMessage(std::string buff, std::string remove, int i);
     std::string	    cleanStringCmd(std::string buff, std::string remove);
     std::string	    cleanString(std::string buff, std::string remove);
@@ -85,18 +83,19 @@ public:
 
 };
 
+//	CREATE SERVER
 int		        create_server( int port );
 void	        launch_server( Server &server, int &sock );
-
 void			ignore_message( int &sockClient, fd_set &readFds );
 bool	        check_password( int &sockClient, fd_set &readFds, Server &server );
-
 std::string		set_username( int &sockClient, fd_set &readFds );
 void	        set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, std::string user );
-
 void	        get_input( Server &server, int &fd, int &sock, fd_set &readFds );
+//	SIGNAL
 void	        sig_init(void);
-
+//	UTILS
 void            send_out( int sock, std::string str );
+bool			check_end_of_buff( char buff[1024], int num_bytes );
+void			clean_buff( char buff[1024] );
 
 #endif
