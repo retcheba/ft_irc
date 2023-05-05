@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 16:21:11 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/05 20:41:10 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # include <arpa/inet.h>
 
 # include "User.hpp"
+# include "Channel.hpp"
+
+class Channel;
 
 class Server
 {
@@ -53,6 +56,8 @@ public:
 
     int 	        alreadyNickname(std::string buff);
     
+    std::map<std::string, Channel>::iterator 	findChannelIterator(std::string channelName);
+
     // SEND
     void            sendMessagePrivate( std::map<int, User>::iterator user, std::string buff );
     void	        sendMessageChannel( std::map<int, User>::iterator user, std::string buff );
@@ -62,7 +67,7 @@ public:
     void		    createChannel(std::map<int, User>::iterator user, std::string buff);
 
     // KICK
-    void	kickChannel(std::map<int, User>::iterator user, std::string buff);
+    void	        kickChannel(std::map<int, User>::iterator user, std::string buff);
 
     // UTILIES CMD
     bool 	        checkFormatMessage(std::string buff, std::string remove, int i);
@@ -75,7 +80,8 @@ public:
         std::string                 _buff;
         std::string                 _password;
         std::map<int, User>         _clients;
-        std::vector<std::string>    _channel;
+        std::map<std::string, Channel> _channel;
+        // std::vector<std::string>    _channel;
 
 };
 

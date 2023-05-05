@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:17:31 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/04 21:58:56 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/05 21:04:29 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,9 @@ void	Server::sendMessagePrivate(std::map<int, User>::iterator user, std::string 
 }
 
 void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string buff) {	
-		
+
+	std::map<std::string, Channel>::iterator itChan;
+			
 	std::string answer;
 	std::string message;
 	std::string channelName;
@@ -99,16 +101,15 @@ void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string 
 		send_out(user->second.getSocket(), answer);
 		return;
 	}
-	if (user->second.findChannel(channelName) == false)
-	{
-		answer = "You have not join the channel #" + channelName + "\r\n";
-		send_out(user->second.getSocket(), answer);
+	itChan = findChannelIterator(channelName);
+
+	if (itChan->second.findUser(user->second.getSocket(), user->second.getNick(), channelName) == false)
 		return;
-	}
+
 	std::map<int, User>::iterator it = this->_clients.begin();
 	while (it != this->_clients.end())
 	{
-		if (it->second.findChannel(channelName) == true)
+		if (itChan->second.findUser(user->second.getSocket(), user->second.getNick(), channelName) == true)
 		{
 			message = buff.substr(( strlen("SEND #") + channelName.length() + 1 ), buff.length());
 			answer = "#" + channelName + " " + user->second.getNick() + ": " + message + "\r\n"; 
@@ -117,3 +118,52 @@ void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string 
 		it++;
 	}
 }
+
+// void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string buff) {	
+
+// 	std::map<std::string, Channel>::iterator itChan;
+			
+// 	std::string answer;
+// 	std::string message;
+// 	std::string channelName;
+	
+// 	if (!checkFormatMessage(buff, "SEND #", 6))
+// 	{
+// 		answer = "Usage: SEND <#channel> <message>\r\n";
+// 		send_out(user->second.getSocket(), answer);
+// 		return;
+// 	}
+// 	channelName = cleanStringCmd(buff, "SEND #");
+// 	if (checkAlreadyChannel(channelName) == false)
+// 	{
+// 		answer = "channel has not been created\r\n";
+// 		send_out(user->second.getSocket(), answer);
+// 		return;
+// 	}
+// 	itChan = findChannelIterator(channelName);
+// 	if (itChan->second.findUser(user->second.getSocket(), user->second.getNick(), channelName) == false)
+// 		return;
+// 	// if (user->second.findChannel(channelName) == false)
+// 	// {
+// 	// 	answer = "You have not join the channel #" + channelName + "\r\n";
+// 	// 	send_out(user->second.getSocket(), answer);
+// 	// 	return;
+// 	// }
+// 	std::map<int, User>::iterator it = this->_clients.begin();
+// 	while (it != this->_clients.end())
+// 	{
+// 		// if (it->second.findChannel(channelName) == true)
+// 		// {
+// 		// 	message = buff.substr(( strlen("SEND #") + channelName.length() + 1 ), buff.length());
+// 		// 	answer = "#" + channelName + " " + user->second.getNick() + ": " + message + "\r\n"; 
+// 		// 	send_out(it->second.getSocket(), answer);
+// 		// }
+// 		if (itChan->second.findUser(user->second.getSocket(), user->second.getNick(), channelName) == true)
+// 		{
+// 			message = buff.substr(( strlen("SEND #") + channelName.length() + 1 ), buff.length());
+// 			answer = "#" + channelName + " " + user->second.getNick() + ": " + message + "\r\n"; 
+// 			send_out(it->second.getSocket(), answer);
+// 		}
+// 		it++;
+// 	}
+// }
