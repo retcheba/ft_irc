@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 16:22:48 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/05 17:45:52 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void    Server::process( int socket )
 	else if ( ( pos = _buff.find("KICK") ) != std::string::npos )
 		kickChannel(user, this->_buff);
 	else
-		send_out((socket + this->_sock), "Accepted commands: 'SEND', JOIN, 'SEND #' or 'KICK'\r\n");
+		send_out((socket + this->_sock), "Accepted commands:\n- private message\n * 'SEND <nickname> <message>'\n- channel\n * 'JOIN <#channel>'\n * 'SEND <#channel> <message>'\n * 'KICK <#channel> <nickname>'\n * 'INVITE <#channel> <nickname>'\n * 'TOPIC <#channel>'\n * 'TOPIC <#channel> <topic>'\n * 'MODE -(i, t, k, o) <#channel>'\r\n");
 	return;
 }
 

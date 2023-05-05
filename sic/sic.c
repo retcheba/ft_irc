@@ -30,12 +30,12 @@ static FILE *srv;
 
 static void
 pout(char *channel, char *fmt, ...) {
-	static char timestr[80];
-	time_t t;
+//	static char timestr[80];
+//	time_t t;
 
-	t = time(NULL);
-	strftime(timestr, sizeof timestr, TIMESTAMP_FORMAT, localtime(&t));
-	fprintf(stdout, "%s > %s\n", timestr, channel);
+//	t = time(NULL);
+//	strftime(timestr, sizeof timestr, TIMESTAMP_FORMAT, localtime(&t));
+	fprintf(stdout, "%s", channel);
 }
 
 static void
@@ -112,7 +112,7 @@ parsesrv(char *cmd)
 	
 	if(!cmd || !*cmd)
 		return;
-	skip(cmd, '\r');
+//	skip(cmd, '\r');
 	pout(cmd, tmp);
 }
 
