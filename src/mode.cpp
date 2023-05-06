@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 19:48:43 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 20:13:40 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,11 +227,11 @@ void	Server::limitSetRemove(std::map<int, User>::iterator user, std::string buff
 	std::string answer;
 	std::string number;
 	
-	mode = "MODE #" + channelName + " -k set ";
+	mode = "MODE #" + channelName + " -l set ";
 	pos = buff.find(mode);
 	if (pos != std::string::npos)
 	{
-		number = mode.erase(0, mode.length());
+		number = buff.substr(mode.length(), buff.length());
 		if (checkLimitNb(number) == false)
 		{
 			answer = "Usage: MODE <#channel> -l set <number>\nNumber must be superior than zero\r\n";

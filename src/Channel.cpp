@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 19:48:27 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 20:24:31 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,7 +298,7 @@ void	Channel::removeMaxUser(int socketUser, std::string user, std::string channe
 		send_out(socketUser, answer);
 		return ;
 	}
-	answer = "Max user are there are no limit of members\r\n";
+	answer = "There are no more capacity limits\r\n";
 	send_out(socketUser, answer);
 	maxUserSet = false;
 	this->_maxUser = 0;

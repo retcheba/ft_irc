@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:53:04 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 20:09:05 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 20:22:21 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 		
 		if (itChan->second.modeMaxUserSet() == true)
 		{
-			if (itChan->second.channelSize() > itChan->second.getMaxUser())
+			if (itChan->second.channelSize() >= itChan->second.getMaxUser())
 			{
-				answer = "The capacity of channel are at maximum\r\n";
+				answer = "The capacity of the channel is at its maximum\r\n";
 				send_out(user->second.getSocket(), answer);
 				return ;
 			}
