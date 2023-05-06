@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:33:20 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/05 23:02:17 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:14:14 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	Server::topic(std::map<int, User>::iterator user, std::string buff) {
 	size_t pos;	
 	std::string answer;
 	
-	
-	std::cout << buff << std::endl;
 	pos = buff.find("view");
 	if (pos != std::string::npos)
 	{
@@ -145,14 +143,10 @@ void	Server::topicChange(std::map<int, User>::iterator user, std::string buff) {
 	if (itChan->second.findUser(user->second.getSocket(), user->second.getNick(), channelName) == false)
 		return;
 	
-	if (itChan->second.modeTopicAdminOnly() == false)
+	if (itChan->second.modeTopicAdminOnly() == true)
 	{
 		if (itChan->second.findAdminUser(user->second.getSocket(), user->second.getNick(), channelName) == false)
-		{
-			answer = "You are not admin to change topic\r\n"; 
-			send_out(user->second.getSocket(), answer);
 			return ;
-		}
 	}
 	
 	topic = cleanLastMessage(buff, "change");

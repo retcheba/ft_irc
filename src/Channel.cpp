@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/05 23:03:39 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:10:39 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ bool	Channel::findAdminUser(int socketUser, std::string user, std::string channe
 	std::string answer;
 	std::vector<std::string>::iterator itAdmin = _adminUser.begin();
 
-	while (itAdmin != _accesUser.end())
+	while (itAdmin != _adminUser.end())
 	{
 		if (*itAdmin == user)
 			return (true);
