@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 23:04:13 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:44:35 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,12 @@ public:
 
 //	CREATE SERVER
 int		        create_server( int port );
-void	        launch_server( Server &server, int &sock );
+void	        launch_server( int &sock );
 void			ignore_message( int &sockClient, fd_set &readFds );
-bool	        check_password( int &sockClient, fd_set &readFds, Server &server );
+bool	        check_password( int &sockClient, fd_set &readFds );
 std::string		set_username( int &sockClient, fd_set &readFds );
-void	        set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, std::string user );
-void	        get_input( Server &server, int &fd, int &sock, fd_set &readFds );
+void	        set_nickname( int &sockClient, int &sock, fd_set &readFds, std::string user );
+void	        get_input( int &fd, int &sock, fd_set &readFds );
 //	SIGNAL
 void	        sig_init(void);
 //	UTILS

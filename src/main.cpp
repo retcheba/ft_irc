@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:58:41 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/02 21:47:36 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:45:02 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
 
+Server	server;
+
 int	main( int argc, char **argv )
 {
 	int 				port;
 	int 				sock;
-	Server				server;
 
 	if ( argc != 3)
 	{
@@ -35,7 +36,7 @@ int	main( int argc, char **argv )
 
 	sock = create_server(port);
 	server.setSock(sock);
-	launch_server(server, sock);
+	launch_server(sock);
 
 	close(sock);
 	return 0;

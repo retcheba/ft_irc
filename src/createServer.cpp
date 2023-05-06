@@ -6,11 +6,13 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 21:29:05 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 14:47:06 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
+
+extern	Server server;
 
 int create_server( int port )
 {
@@ -34,7 +36,7 @@ int create_server( int port )
 	return (sock);
 }
 
-void	launch_server( Server &server, int &sock )
+void	launch_server( int &sock )
 {
 	unsigned int		cslen;
 	struct sockaddr_in	csin;
@@ -75,16 +77,16 @@ void	launch_server( Server &server, int &sock )
 						
 						ignore_message(sockClient, readFds);
 						
-						if ( check_password(sockClient, readFds, server) )		
+						if ( check_password(sockClient, readFds) )		
 						{
 							std::string user = set_username(sockClient, readFds);
 							if ( !user.empty() )
-								set_nickname(sockClient, sock, readFds, server, user);
+								set_nickname(sockClient, sock, readFds, user);
 						}
 					}
 				} 
 				else 
-					get_input(server, fd, sock, readFds);
+					get_input(fd, sock, readFds);
 			}
 		}
 	}
@@ -120,7 +122,7 @@ void	ignore_message( int &sockClient, fd_set &readFds )
 	return;
 }
 
-bool	check_password( int &sockClient, fd_set &readFds, Server &server )
+bool	check_password( int &sockClient, fd_set &readFds )
 {
 	char		buff[1024];
 	bool		lock = false;
@@ -218,7 +220,7 @@ std::string		set_username( int &sockClient, fd_set &readFds )
 	return (result);
 }
 
-void	set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, std::string user )
+void	set_nickname( int &sockClient, int &sock, fd_set &readFds, std::string user )
 {
 	char		buff[1024];
 	std::string	result;
@@ -278,7 +280,7 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, Server &server, 
 	return;
 }
 
-void	get_input( Server &server, int &fd, int &sock, fd_set &readFds )
+void	get_input( int &fd, int &sock, fd_set &readFds )
 {
 	char		buff[1024];
 	std::string	result;
