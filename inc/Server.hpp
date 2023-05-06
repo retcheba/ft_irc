@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 16:05:27 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:58:32 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ public:
     
     // MODE
     void	mode(std::map<int, User>::iterator user, std::string buff);
+
+	//	INVITE
+    void	        invite(std::map<int, User>::iterator user, std::string buff);
     
     void	inviteSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName);
     void	topicSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName);

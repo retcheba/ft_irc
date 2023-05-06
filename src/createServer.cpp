@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 14:59:44 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:07:12 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int create_server( int port )
 		exit(2);
 	}
 	listen(sock, 42);
+	std::cout << "Server connected" << std::endl;
 	return (sock);
 }
 
