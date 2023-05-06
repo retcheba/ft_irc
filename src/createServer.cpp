@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 17:39:32 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 20:52:57 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ bool	check_password( int &sockClient, fd_set &readFds )
 	bool		OK = false;
 
 	clean_buff(buff);
-	while ( ( buff[0] == '\0' || buff[0] == '\n' || buff[0] == '\r' ) && !lock )
+	while ( OK == false && !lock )
 	{
 		if (result.empty())
 		{
@@ -156,7 +156,7 @@ bool	check_password( int &sockClient, fd_set &readFds )
 			FD_CLR(sockClient, &readFds);
 			break;
 		}
-		else if ( buff[0] != '\0' && buff[0] != '\n' && buff[0] != '\r' )
+		else
 		{
 			OK = check_end_of_buff(buff, num_bytes);
 
@@ -178,6 +178,8 @@ bool	check_password( int &sockClient, fd_set &readFds )
 			else
 				clean_buff(buff);
 		}
+		if (result.empty())
+			OK = false;
 	}
 	return (lock);
 }
@@ -189,7 +191,7 @@ std::string		set_username( int &sockClient, fd_set &readFds )
 	bool		OK = false;
 
 	clean_buff(buff);
-	while ( buff[0] == '\0' || buff[0] == '\n' || buff[0] == '\r' )
+	while ( OK == false )
 	{
 		if (result.empty())
 		{
@@ -214,7 +216,7 @@ std::string		set_username( int &sockClient, fd_set &readFds )
 			FD_CLR(sockClient, &readFds);
 			break;
 		}
-		else if ( buff[0] != '\0' && buff[0] != '\n' && buff[0] != '\r' )
+		else
 		{
 			OK = check_end_of_buff(buff, num_bytes);
 
@@ -226,6 +228,8 @@ std::string		set_username( int &sockClient, fd_set &readFds )
 			if (!OK)
 				clean_buff(buff);
 		}
+		if (result.empty())
+			OK = false;
 	}
 	return (result);
 }
@@ -237,7 +241,7 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, std::string user
 	bool		OK = false;
 
 	clean_buff(buff);
-	while ( buff[0] == '\0' || buff[0] == '\n' || buff[0] == '\r' )
+	while ( OK == false )
 	{
 		if (result.empty())
 		{
@@ -262,7 +266,7 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, std::string user
 			FD_CLR(sockClient, &readFds);
 			break;
 		}
-		else if ( buff[0] != '\0' && buff[0] != '\n' && buff[0] != '\r' )
+		else
 		{
 			OK = check_end_of_buff(buff, num_bytes);
 
@@ -281,8 +285,11 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, std::string user
 				std::cerr << "Error during connection" << std::endl;
 				break;
 			}
-			buff[0] = '\0';
+			clean_buff(buff);
+			result.clear();
 		}
+		if (result.empty())
+			OK = false;
 	}
 	if ( !result.empty() )
 	{
@@ -300,7 +307,7 @@ void	get_input( int &fd, int &sock, fd_set &readFds )
 	bool		OK = false;
 
 	clean_buff(buff);
-	while ( buff[0] == '\0' )
+	while ( OK == false )
 	{
 		int num_bytes = recv(fd, buff, 1024, 0);
 		
@@ -338,6 +345,8 @@ void	get_input( int &fd, int &sock, fd_set &readFds )
 			else
 				clean_buff(buff);
 		}
+		if (result.empty())
+			OK = false;
 	}
 	clean_buff(buff);
 	return;
