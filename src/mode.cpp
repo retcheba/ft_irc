@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 20:13:40 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 21:32:00 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,67 @@ void	Server::inviteSetRemove(std::map<int, User>::iterator user, std::string buf
 void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName) {
 	
 	std::map<std::string, Channel>::iterator itChan;
+	std::map<int, User>::iterator itUser;
 	
 	size_t pos;
 	std::string mode;
+	std::string answer;
+	std::string nickname;
 	
-	mode = "MODE #" + channelName + " -t set";
+	mode = "MODE #" + channelName + " -t set ";
 	pos = buff.find(mode);
 	if (pos != std::string::npos)
 	{
+		nickname = buff.substr(mode.length(), buff.length());
 		itChan = findChannelIterator(channelName);
-		itChan->second.setTopicAdminOnly(user->second.getSocket(), user->second.getNick(), channelName);
+		if (itChan->second.findUser(nickname) == false)
+		{
+			answer = nickname + " is not in channel #" + channelName + "\r\n";
+			send_out(user->second.getSocket(), answer);
+			return ;
+		}
+		if (itChan->second.findAdminUser(nickname) == false)
+		{
+			answer = nickname + " is not admin in channel #" + channelName + "\r\n";
+			send_out(user->second.getSocket(), answer);
+			return ;
+		}
+		if (itChan->second.findTopicAdmin(nickname) == false)
+		{
+			answer = nickname + " already has the rights to the topic #" + channelName + "\r\n";
+			send_out(user->second.getSocket(), answer);
+			return ;
+		}
+		itUser = findUserIterator(nickname);
+		itChan->second.setTopicAdminOnly(user->second.getSocket(), itUser->second.getSocket(), nickname, channelName);
 		return ;
 	}
-	mode = "MODE #" + channelName + " -t remove";
-	pos = buff.find(" -i remove");
+	mode = "MODE #" + channelName + " -t remove ";
+	pos = buff.find(mode);
 	if (pos != std::string::npos)
 	{
+		nickname = buff.substr(mode.length(), buff.length());
 		itChan = findChannelIterator(channelName);
-		itChan->second.removeTopicAdminOnly(user->second.getSocket(), user->second.getNick(), channelName);
+				if (itChan->second.findUser(nickname) == false)
+		{
+			answer = nickname + " is not in channel #" + channelName + "\r\n";
+			send_out(user->second.getSocket(), answer);
+			return ;
+		}
+		if (itChan->second.findAdminUser(nickname) == false)
+		{
+			answer = nickname + " is not admin in channel #" + channelName + "\r\n";
+			send_out(user->second.getSocket(), answer);
+			return ;
+		}
+		if (itChan->second.findTopicAdmin(nickname) == true)
+		{
+			answer = nickname + " no longer has the right to the topic #" + channelName + "\r\n";
+			send_out(user->second.getSocket(), answer);
+			return ;
+		}
+		itUser = findUserIterator(nickname);
+		itChan->second.deleteTopicAdmin(user->second.getSocket(), itUser->second.getSocket(), nickname, channelName);
 		return ;
 	}
 }

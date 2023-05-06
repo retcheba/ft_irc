@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:33:20 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 20:01:11 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 21:38:52 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,15 +168,11 @@ void	Server::topicChange(std::map<int, User>::iterator user, std::string buff) {
 		send_out(user->second.getSocket(), answer);
 		return;
 	}
-	
-	if (itChan->second.modeTopicAdminOnly() == true)
+	if (itChan->second.findTopicAdmin(user->second.getNick()) == false)
 	{
-		if (itChan->second.findAdminUser(user->second.getNick()) == false)
-		{
-			answer = "You are not admin in channel: #" + channelName + "\r\n";
-			send_out(user->second.getSocket(), answer);
-			return;
-		}
+		answer = user->second.getNick() + " no longer has the right to the topic #" + channelName + "\r\n";
+		send_out(user->second.getSocket(), answer);
+		return ;
 	}
 	
 	topic = cleanLastMessage(buff, "change");

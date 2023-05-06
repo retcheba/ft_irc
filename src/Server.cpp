@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 16:59:54 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 21:02:48 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	Server::deleteAllChannel( void )
 	{
 		it->second.getAcUser().clear();
 		it->second.getAdUser().clear();
+		it->second.getTopicAdmin().clear();
 	}
 	this->_channel.clear();
 	return;

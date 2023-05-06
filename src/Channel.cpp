@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 20:24:31 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 21:12:04 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ Channel::Channel(int socketUser, std::string User, std::string channelName)
 	
 	_adminUser.push_back(User);
 	_accesUser.push_back(User);
+	_topicAdmin.push_back(User);
 
 	this->_maxUser = 0;
 
 	this->maxUserSet = false;
 	this->inviteOnly = false;
-	this->topicAdminOnly = false;
 	this->passwordSet = false;
 
 	answer = "Channel: #" + channelName + " has been created\r\n";
@@ -80,32 +80,27 @@ void	Channel::setInviteOnly(int socketUser, std::string user, std::string channe
 	inviteOnly = true;
 }
 
-void	Channel::setTopicAdminOnly(int socketUser, std::string user, std::string channelName) {
+void	Channel::setTopicAdminOnly(int socketAdminTopic, int socketNewAdminTopic, std::string user, std::string channelName) {
 
 	std::string answer;
-	
-	// if (topicAdminOnly == true)
-	// {
-	// 	answer = "Mode topic admin are already set !\r\n";
-	// 	send_out(socketUser, answer);
-	// 	return ;
-	// }		
+
 	if (findUser(user) == false)
 	{
 		answer = "You have not join the channel #" + channelName + "\r\n";
-		send_out(socketUser, answer);
+		send_out(socketAdminTopic, answer);
 		return ;
 	}
 	if (findAdminUser(user) == false)
 	{
 		answer = "You are not admin in channel: #" + channelName + "\r\n";
-		send_out(socketUser, answer);
+		send_out(socketAdminTopic, answer);
 		return ;
 	}
-	
-	answer = "Mode topic admin are set !\r\n";
-	send_out(socketUser, answer);
-	topicAdminOnly = true;
+	_topicAdmin.push_back(user);
+	answer = user + " can change topic now\r\n";
+	send_out(socketAdminTopic, answer);
+	answer = "You can change topic\r\n";
+	send_out(socketNewAdminTopic, answer);
 }
 
 void	Channel::setPassWord(int socketUser, std::string user, std::string channelName, std::string password) {
@@ -180,6 +175,7 @@ bool	Channel::setAdmin(int socketAdmin, int socketNewAdmin, std::string admin) {
 				itAdmin++;
 			}
 			_adminUser.push_back(admin);
+			_topicAdmin.push_back(admin);
 			answer = admin + " is an admin\r\n";
 			send_out(socketAdmin, answer);
 			answer = "you are an admin\r\n";
@@ -223,34 +219,6 @@ void	Channel::removeInviteOnly(int socketUser, std::string user, std::string cha
 	answer = "Mode invite only are remove !\r\n";
 	send_out(socketUser, answer);
 	inviteOnly = false;
-}
-
-void	Channel::removeTopicAdminOnly(int socketUser, std::string user, std::string channelName) {
-
-	std::string answer;
-	
-	// if (topicAdminOnly == false)
-	// {
-	// 	answer = "Mode topic admin are already remove !\r\n";
-	// 	send_out(socketUser, answer);
-	// 	return ;
-	// }
-	if (findUser(user) == false)
-	{
-		answer = "You have not join the channel #" + channelName + "\r\n";
-		send_out(socketUser, answer);
-		return ;
-	}
-	if (findAdminUser(user) == false)
-	{
-		answer = "You are not admin in channel: #" + channelName + "\r\n";
-		send_out(socketUser, answer);
-		return ;
-	}
-	
-	answer = "Mode topic admin are remove !\r\n";
-	send_out(socketUser, answer);
-	topicAdminOnly = false;
 }
 
 void	Channel::removePassWord(int socketUser, std::string user, std::string channelName) {
@@ -308,11 +276,21 @@ bool	Channel::removeAdmin(int socketAdmin, int socketKick, std::string admin) {
 
 	std::string answer;
 	std::vector<std::string>::iterator itAdmin = _adminUser.begin();
-
+	std::vector<std::string>::iterator itTopic = _topicAdmin.begin();
+	
 	while (itAdmin != _adminUser.end())
 	{
 		if (*itAdmin == admin)
 		{
+			while (itTopic != _topicAdmin.end())
+			{
+				if (*itTopic == admin)
+				{
+					_topicAdmin.erase(itAdmin);
+					break;
+				}
+				itTopic++;
+			}
 			_adminUser.erase(itAdmin);
 			answer = admin + " is no longer an admin\r\n";
 			send_out(socketAdmin, answer);
@@ -371,6 +349,7 @@ bool	Channel::deleteUser(int socketUser, int socketNewUser, std::string user, st
 	std::string answer;
 	std::vector<std::string>::iterator itAcces = _accesUser.begin();
 	std::vector<std::string>::iterator itAdmin = _adminUser.begin();
+	std::vector<std::string>::iterator itTopic = _topicAdmin.begin();
 
 	while (itAcces != _accesUser.end())
 	{
@@ -380,6 +359,15 @@ bool	Channel::deleteUser(int socketUser, int socketNewUser, std::string user, st
 			{
 				if (*itAdmin == user)
 				{
+					while (itTopic != _topicAdmin.end())
+					{
+						if (*itTopic == user)
+						{
+							_topicAdmin.erase(itAdmin);
+							break;
+						}
+						itTopic++;
+					}
 					_adminUser.erase(itAdmin);
 					break;
 				}
@@ -399,6 +387,29 @@ bool	Channel::deleteUser(int socketUser, int socketNewUser, std::string user, st
 	return (false);
 }
 
+bool	Channel::deleteTopicAdmin(int socketUser, int socketNewUser, std::string user, std::string channelName) {
+
+	std::string answer;
+	std::vector<std::string>::iterator itTopic = _topicAdmin.begin();
+
+	while (itTopic != _accesUser.end())
+	{
+		if (*itTopic == user)
+		{
+			_topicAdmin.erase(itTopic);
+			answer = user + " no right to change the topic in channel\r\n";
+			send_out(socketUser, answer);
+			answer = "you have no right to change the topic in channel #" + channelName + "\r\n";
+			send_out(socketNewUser, answer);
+			return (true);
+		}
+		itTopic++;
+	}
+	answer = user + " doesn't exist in channel\r\n";
+	send_out(socketNewUser, answer);
+	return (false);
+}
+
 /*
 ** --------------------------------- MODE GETTER ----------------------------------
 */
@@ -406,11 +417,6 @@ bool	Channel::deleteUser(int socketUser, int socketNewUser, std::string user, st
 bool	Channel::modeInviteOnly() const {
 
 	return(this->inviteOnly);
-}
-
-bool	Channel::modeTopicAdminOnly() const {
-	
-	return(this->topicAdminOnly);
 }
 
 bool	Channel::modePasswordSet() const {
@@ -492,6 +498,20 @@ bool	Channel::findAdminUser(std::string user) {
 	return (false);
 }
 
+bool	Channel::findTopicAdmin(std::string user) {
+
+	std::string answer;
+	std::vector<std::string>::iterator itTopic = _topicAdmin.begin();
+
+	while (itTopic != _topicAdmin.end())
+	{
+		if (*itTopic == user)
+			return (true);
+		itTopic++;
+	}
+	return (false);
+}
+
 std::vector<std::string> &	Channel::getAcUser( void )
 {
 	return (this->_accesUser);
@@ -500,6 +520,11 @@ std::vector<std::string> &	Channel::getAcUser( void )
 std::vector<std::string> &	Channel::getAdUser( void )
 {
 	return (this->_adminUser);
+}
+
+std::vector<std::string> &	Channel::getTopicAdmin( void )
+{
+	return (this->_topicAdmin);
 }
 
 /* ************************************************************************** */
