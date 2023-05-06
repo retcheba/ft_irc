@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:53:04 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/05 21:03:57 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 15:58:40 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,19 @@ std::map<std::string, Channel>::iterator 	Server::findChannelIterator(std::strin
 	while (it != _channel.end())
 	{
 		if (it->first == channelName)
+			return (it);
+		it++;
+	}
+	return (it);
+}
+
+std::map<int, User>::iterator 	Server::findUserIterator(std::string nickname) {
+
+	std::map<int, User>::iterator it = _clients.begin();
+	
+	while (it != _clients.end())
+	{
+		if (it->second.getNick() == nickname)
 			return (it);
 		it++;
 	}

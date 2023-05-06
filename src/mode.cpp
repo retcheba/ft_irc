@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 15:19:15 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:09:35 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,25 @@ void	Server::mode(std::map<int, User>::iterator user, std::string buff) {
 	{
 		return ;
 	}
+	answer = "Usage: MODE <#channel> -<i/t> <set/remove>\nUsage: MODE <#channel> -k <set> <password>\nUsage: MODE <#channel> -k <remove>\nUsage: MODE <#channel> -o <give/take> <nickname>\r\n" ;
+	send_out(user->second.getSocket(), answer);
 }
 
-// std::string 	cleanPassword(std::string buff, int length)
-// {
-// 	std::string clean;
+bool 	checkPassword(std::string buff)
+{
+	int i = 0;
 	
-// 	while (buff[pos] != ' ' && buff[pos] != '\0' && ( buff[pos] > 32 && buff[pos] < 127))
-// 		pos++;
-// 	pos++;
-// 	start = pos;
-// 	while (buff[pos] != ' ' && buff[pos] != '\0' && ( buff[pos] > 32 && buff[pos] < 127))
-// 		pos++;
-// 	clean = buff.substr(start, pos);
-// 	return (clean);
-// }
+	for (int l = 0; buff[l] != '\0'; l++)
+	{
+		if (buff[l] == ' ')
+			return (false);
+	}
+	while (buff[i] != ' ' && buff[i] != '\0' && ( buff[i] > 32 && buff[i] < 127))
+		i++;
+	if (buff[i] != '\0')
+		return (false);
+	return (true);
+}
 
 void	Server::inviteSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName) {
 	
@@ -121,6 +125,7 @@ void	Server::passwordSetRemove(std::map<int, User>::iterator user, std::string b
 	
 	size_t pos;
 	std::string mode;
+	std::string answer;
 	std::string password;
 	
 	mode = "MODE #" + channelName + " -k set ";
@@ -128,15 +133,20 @@ void	Server::passwordSetRemove(std::map<int, User>::iterator user, std::string b
 	if (pos != std::string::npos)
 	{
 		password = mode.erase(0, mode.length());
+		if (checkPassword(password) == false)
+		{
+			answer = "Usage: MODE <#channel> -k set <password>\r\n";
+			send_out(user->second.getSocket(), answer);
+			return;
+		}
 		itChan = findChannelIterator(channelName);
-		itChan->second.setPassWord(user->second.getSocket(), user->second.getNick(), channelName);
+		itChan->second.setPassWord(user->second.getSocket(), user->second.getNick(), channelName, password);
 		return ;
 	}
-	mode = "MODE #" + channelName + " -k remove ";
+	mode = "MODE #" + channelName + " -k remove";
 	pos = buff.find(" -i remove");
 	if (pos != std::string::npos)
 	{
-		password = mode.erase(0, mode.length());
 		itChan = findChannelIterator(channelName);
 		itChan->second.removePassWord(user->second.getSocket(), user->second.getNick(), channelName);
 		return ;
@@ -145,8 +155,40 @@ void	Server::passwordSetRemove(std::map<int, User>::iterator user, std::string b
 
 void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string buff, std::string channelName) {
 	
+	std::map<std::string, Channel>::iterator itChan;
+	std::map<int, User>::iterator itUser;
+	
+	size_t pos;
+	std::string mode;
+	std::string answer;
+	std::string nickname;
+	
+	mode = "MODE #" + channelName + " -k set ";
+	pos = buff.find(mode);
+	if (pos != std::string::npos)
+	{
+		nickname = mode.erase(0, mode.length());
+		itChan = findChannelIterator(channelName);
+		if (itChan->second.findUser(nickname) == false)
+		{
+			answer = nickname + " are not in channel: #" + channelName + "\r\n";
+			send_out(user->second.getSocket(), answer);
+			return ;
+		}
+		itUser = findUserIterator(nickname);
+		itChan->second.setAdmin(user->second.getSocket(), itUser->second.getSocket(), nickname);
+		return ;
+	}
+	mode = "MODE #" + channelName + " -k remove";
+	pos = buff.find(" -i remove");
+	if (pos != std::string::npos)
+	{
+		itChan = findChannelIterator(channelName);
+		itChan->second.removePassWord(user->second.getSocket(), user->second.getNick(), channelName);
+		return ;
+	}
 }
 
-void	Server::limitSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName) {
+// void	Server::limitSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName) {
 	
-}
+// }

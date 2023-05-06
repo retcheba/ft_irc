@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:18:53 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 15:18:01 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 15:50:59 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class Channel
 		// MODE SET
 		void	setInviteOnly(int socketUser, std::string user, std::string channelName);
 		void	setTopicAdminOnly(int socketUser, std::string user, std::string channelName);
-		void	setPassWord(int socketUser, std::string user, std::string channelName);
+		void	setPassWord(int socketUser, std::string user, std::string channelName, std::string password);
 		void	setMaxUser(size_t maxUSer);
 		bool	setAdmin(int socketAdmin, int socketNewAdmin, std::string admin);
 
@@ -65,8 +65,8 @@ class Channel
 		std::vector<std::string> &	getAcUser( void );
 		std::vector<std::string> &	getAdUser( void );
 
-		bool	findUser(int socketUser, std::string user, std::string channelName);
-		bool	findAdminUser(int socketUser, std::string user, std::string channelName);
+		bool	findUser(std::string user);
+		bool	findAdminUser(std::string user);
 
 
 	protected:

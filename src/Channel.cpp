@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 15:15:09 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:04:30 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,18 @@ void	Channel::setInviteOnly(int socketUser, std::string user, std::string channe
 		send_out(socketUser, answer);
 		return ;
 	}		
-	if (findUser(socketUser, user, channelName) == false)
+	if (findUser(user) == false)
+	{
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
-	if (findAdminUser(socketUser, user, channelName) == false)
+	}
+	if (findAdminUser(user) == false)
+	{
+		answer = "You are not admin in channel: #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
+	}
 	
 	answer = "Mode invite only are set !\r\n";
 	send_out(socketUser, answer);
@@ -81,33 +89,50 @@ void	Channel::setTopicAdminOnly(int socketUser, std::string user, std::string ch
 		send_out(socketUser, answer);
 		return ;
 	}		
-	if (findUser(socketUser, user, channelName) == false)
+	if (findUser(user) == false)
+	{
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
-	if (findAdminUser(socketUser, user, channelName) == false)
+	}
+	if (findAdminUser(user) == false)
+	{
+		answer = "You are not admin in channel: #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
+	}
 	
 	answer = "Mode topic admin are set !\r\n";
 	send_out(socketUser, answer);
 	topicAdminOnly = true;
 }
 
-void	Channel::setPassWord(int socketUser, std::string user, std::string channelName) {
+void	Channel::setPassWord(int socketUser, std::string user, std::string channelName, std::string password) {
 
 	std::string answer;
 
 	if (passwordSet == true)
 	{
-		answer = "Mode password are already set !\r\n";
+		answer = "Password are already set !\r\n";
 		send_out(socketUser, answer);
 		return ;
 	}	
-	if (findUser(socketUser, user, channelName) == false)
+	if (findUser(user) == false)
+	{
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
-	if (findAdminUser(socketUser, user, channelName) == false)
+	}
+	if (findAdminUser(user) == false)
+	{
+		answer = "You are not admin in channel: #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
+	}
 	
-	answer = "Mode password are set !\r\n";
+	answer = "Password are set !\r\n";
 	send_out(socketUser, answer);
+	addPassword(password);
 	passwordSet = true;
 }
 
@@ -165,10 +190,18 @@ void	Channel::removeInviteOnly(int socketUser, std::string user, std::string cha
 		send_out(socketUser, answer);
 		return ;
 	}
-	if (findUser(socketUser, user, channelName) == false)
+	if (findUser(user) == false)
+	{
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
-	if (findAdminUser(socketUser, user, channelName) == false)
+	}
+	if (findAdminUser(user) == false)
+	{
+		answer = "You are not admin in channel: #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
+	}
 	
 	answer = "Mode invite only are remove !\r\n";
 	send_out(socketUser, answer);
@@ -185,10 +218,18 @@ void	Channel::removeTopicAdminOnly(int socketUser, std::string user, std::string
 		send_out(socketUser, answer);
 		return ;
 	}
-	if (findUser(socketUser, user, channelName) == false)
+	if (findUser(user) == false)
+	{
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
-	if (findAdminUser(socketUser, user, channelName) == false)
+	}
+	if (findAdminUser(user) == false)
+	{
+		answer = "You are not admin in channel: #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
+	}
 	
 	answer = "Mode topic admin are remove !\r\n";
 	send_out(socketUser, answer);
@@ -201,17 +242,26 @@ void	Channel::removePassWord(int socketUser, std::string user, std::string chann
 	
 	if (passwordSet == false)
 	{
-		answer = "Mode password are already remove !\r\n";
+		answer = "Password are already remove !\r\n";
 		send_out(socketUser, answer);
 		return ;
 	}
-	if (findUser(socketUser, user, channelName) == false)
+	if (findUser(user) == false)
+	{
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
-	if (findAdminUser(socketUser, user, channelName) == false)
+	}
+	if (findAdminUser(user) == false)
+	{
+		answer = "You are not admin in channel: #" + channelName + "\r\n";
+		send_out(socketUser, answer);
 		return ;
+	}
 	
-	answer = "Mode password are remove !\r\n";
+	answer = "Password are remove !\r\n";
 	send_out(socketUser, answer);
+	addPassword("");
 	passwordSet = false;
 }
 
@@ -250,6 +300,11 @@ bool	Channel::removeAdmin(int socketAdmin, int socketKick, std::string admin) {
 void	Channel::addTopic(std::string topic) {
 
 	this->_topic = topic;
+}
+
+void	Channel::addPassword(std::string password) {
+
+	this->_password = password;
 }
 
 bool	Channel::addUser(int socketUser, std::string user, std::string channelName) {
@@ -364,7 +419,7 @@ std::string 	Channel::getTopic() {
 }
 
 
-bool	Channel::findUser(int socketUser, std::string user, std::string channelName) {
+bool	Channel::findUser(std::string user) {
 
 	std::string answer;
 	std::vector<std::string>::iterator itAcces = _accesUser.begin();
@@ -375,12 +430,10 @@ bool	Channel::findUser(int socketUser, std::string user, std::string channelName
 			return (true);
 		itAcces++;
 	}
-	answer = "You have not join the channel #" + channelName + "\r\n";
-	send_out(socketUser, answer);
 	return (false);
 }
 
-bool	Channel::findAdminUser(int socketUser, std::string user, std::string channelName) {
+bool	Channel::findAdminUser(std::string user) {
 
 	std::string answer;
 	std::vector<std::string>::iterator itAdmin = _adminUser.begin();
@@ -391,8 +444,6 @@ bool	Channel::findAdminUser(int socketUser, std::string user, std::string channe
 			return (true);
 		itAdmin++;
 	}
-	answer = "You are not admin in channel: #" + channelName + "\r\n";
-	send_out(socketUser, answer);
 	return (false);
 }
 

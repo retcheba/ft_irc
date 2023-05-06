@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:29:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/05 21:18:10 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 15:53:05 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,19 @@ void	Server::kickChannel(std::map<int, User>::iterator user, std::string buff) {
 	}
 	itChan = findChannelIterator(channelName);
 
-	if (itChan->second.findUser(user->second.getSocket(), user->second.getNick(), channelName) == false)
+	if (itChan->second.findUser(user->second.getNick()) == false)
+	{
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(user->second.getSocket(), answer);
 		return;
+	}
 		
-	if (itChan->second.findAdminUser(user->second.getSocket(), user->second.getNick(), channelName) == false)
+	if (itChan->second.findAdminUser(user->second.getNick()) == false)
+	{
+		answer = "You are not admin in channel: #" + channelName + "\r\n";
+		send_out(user->second.getSocket(), answer);
 		return;
+	}
 		
 	userName = buff.substr(( 6 + channelName.length() + 1 ), buff.length());
 	std::map<int, User>::iterator it = this->_clients.begin();
