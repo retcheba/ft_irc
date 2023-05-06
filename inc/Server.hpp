@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 16:58:32 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:11:39 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ public:
     std::string	    cleanStringCmd(std::string buff, std::string remove);
     std::string	    cleanString(std::string buff, std::string remove);
     bool 	        checkLastMessage(std::string buff, std::string cmd);
+    bool 	        checkPassword(std::string buff);
     
     private:
 

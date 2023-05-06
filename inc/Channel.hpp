@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:18:53 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 16:31:51 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 17:13:13 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ class Channel
 		//GETTER
 		bool	getAccesUser(int socketUser, std::string channelName);
 		std::string 	getTopic();
-		std::string 	getPassword(); 
+		std::string 	getPassword();
+		double			getMaxUser();
 		std::vector<std::string> &	getAcUser( void );
 		std::vector<std::string> &	getAdUser( void );
 
 		bool	findUser(std::string user);
 		bool	findAdminUser(std::string user);
+		int		channelSize();
 
 
 	protected:

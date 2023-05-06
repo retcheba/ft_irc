@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:38 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/05 19:30:50 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 17:14:24 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,59 +68,6 @@ void		User::setSocket(int sock) {
 
 	this->_socket = sock;
 }
-
-// void		User::setChan(std::string chan, bool admin) {
-	
-// 	int rule;
-	
-// 	if (admin == true)
-// 		rule = 1;
-// 	else
-// 		rule = -1;
-	
-// 	_channelStr[_index] = chan;
-// 	_channelIdx[_index] = rule;
-// 	_index += 1;
-// }
-
-
-// bool User::findChannel(std::string chan) {
-	
-// 	for (int i = 0; i < _index; i++)
-// 	{
-// 		if (_channelStr[i] == chan)
-// 			return (true);
-// 	}
-// 	return (false);
-// }
-
-// bool		User::checkAdminChannel(std::string chan) {
-	
-// 	for (int i = 0; i < _index; i++)
-// 	{
-// 		if (_channelStr[i] == chan)
-// 		{
-// 			if (_channelIdx[i] == 1)
-// 				return (true);
-// 			else
-// 				return (false);
-// 		}
-// 	}
-// 	return (false);
-// }
-
-// void		User::deleteChannel(std::string chan) {
-	
-// 	for (int i = 0; i < _index; i++)
-// 	{
-// 		if (_channelStr[i] == chan)
-// 		{
-// 			for (size_t l = 0; l < _channelStr[i].length(); l++)
-// 				_channelStr[i][l] = '\0';
-// 		}
-// 	}
-	
-// }
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------

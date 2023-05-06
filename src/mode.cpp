@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 16:39:23 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 17:35:51 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	Server::mode(std::map<int, User>::iterator user, std::string buff) {
 	
 	size_t pos;
 	std::string answer;
-	std::string channelName = cleanString(buff, "MODE #");
+	std::string channelName = cleanStringCmd(buff, "MODE #");
 
 	if (checkAlreadyChannel(channelName) == false)
 	{
@@ -108,10 +108,12 @@ void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff
 	}
 }
 
-bool 	checkPassword(std::string buff)
+bool 	Server::checkPassword(std::string buff)
 {
 	int i = 0;
 	
+	if (buff[0] == '\0')
+		return (false);
 	for (int l = 0; buff[l] != '\0'; l++)
 	{
 		if (buff[l] == ' ')

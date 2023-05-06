@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 16:33:22 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 17:26:37 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,6 +451,19 @@ std::string 	Channel::getTopic() {
 	return (this->_topic);
 }
 
+std::string 	Channel::getPassword() {
+	
+	return (this->_password);
+}
+double			Channel::getMaxUser() {
+	
+	return (this->_maxUser);
+}
+
+int		Channel::channelSize() {
+	
+	return (_accesUser.size());
+}
 
 bool	Channel::findUser(std::string user) {
 
