@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sendMessage.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:17:31 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 16:07:05 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:54:59 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string 
 	std::map<int, User>::iterator it = this->_clients.begin();
 	while (it != this->_clients.end())
 	{
-		if (itChan->second.findUser(user->second.getNick()) == true)
+		if (itChan->second.findUser(it->second.getNick()) == true)
 		{
 			message = buff.substr(( strlen("SEND #") + channelName.length() + 1 ), buff.length());
 			answer = "#" + channelName + " " + user->second.getNick() + ": " + message + "\r\n"; 

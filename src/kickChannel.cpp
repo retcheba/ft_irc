@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   kickChannel.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:29:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 15:53:05 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:46:52 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	Server::kickChannel(std::map<int, User>::iterator user, std::string buff) {
 		}
 		it++;
 	}
-	answer = userName + " not exist in channel #" + channelName + "\r\n";
+	answer = userName + " doesn't exist in the channel: #" + channelName + "\r\n";
 	send_out(user->second.getSocket(), answer);
 	return;
 }
