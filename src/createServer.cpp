@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 17:07:12 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:39:32 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,16 @@ bool	check_password( int &sockClient, fd_set &readFds )
 	clean_buff(buff);
 	while ( ( buff[0] == '\0' || buff[0] == '\n' || buff[0] == '\r' ) && !lock )
 	{
-		if (send(sockClient, "Password: \r\n", 12, 0) == -1)
+		if (result.empty())
 		{
-			std::cerr << "Error during connection" << std::endl;
-			break;
+			if (send(sockClient, "Password: \r\n", 12, 0) == -1)
+			{
+				std::cerr << "Error during connection" << std::endl;
+				break;
+			}
 		}
 
-		int num_bytes = recv(sockClient, buff, 1023, 0);
+		int num_bytes = recv(sockClient, buff, 1024, 0);
 	
 		if (num_bytes == -1)
 		{
@@ -188,13 +191,16 @@ std::string		set_username( int &sockClient, fd_set &readFds )
 	clean_buff(buff);
 	while ( buff[0] == '\0' || buff[0] == '\n' || buff[0] == '\r' )
 	{
-		if (send(sockClient, "Username: \r\n", 12, 0) == -1)
+		if (result.empty())
 		{
-			std::cerr << "Error during connection" << std::endl;
-			break;
+			if (send(sockClient, "Username: \r\n", 12, 0) == -1)
+			{
+				std::cerr << "Error during connection" << std::endl;
+				break;
+			}
 		}
 
-		int num_bytes = recv(sockClient, buff, 1023, 0);
+		int num_bytes = recv(sockClient, buff, 1024, 0);
 		
 		if (num_bytes == -1)
 		{
@@ -233,13 +239,16 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, std::string user
 	clean_buff(buff);
 	while ( buff[0] == '\0' || buff[0] == '\n' || buff[0] == '\r' )
 	{
-		if (send(sockClient, "Nickname: \r\n", 12, 0) == -1)
+		if (result.empty())
 		{
-			std::cerr << "Error during connection" << std::endl;
-			break;
+			if (send(sockClient, "Nickname: \r\n", 12, 0) == -1)
+			{
+				std::cerr << "Error during connection" << std::endl;
+				break;
+			}
 		}
 
-		int num_bytes = recv(sockClient, buff, 1023, 0);
+		int num_bytes = recv(sockClient, buff, 1024, 0);
 	
 		if (num_bytes == -1)
 		{
@@ -293,7 +302,7 @@ void	get_input( int &fd, int &sock, fd_set &readFds )
 	clean_buff(buff);
 	while ( buff[0] == '\0' )
 	{
-		int num_bytes = recv(fd, buff, 1023, 0);
+		int num_bytes = recv(fd, buff, 1024, 0);
 		
 		if (num_bytes == -1)
 		{
