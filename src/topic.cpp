@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:33:20 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 19:36:07 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 20:01:11 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void	Server::topicChange(std::map<int, User>::iterator user, std::string buff) {
 	std::map<int, User>::iterator it = this->_clients.begin();
 	while (it != this->_clients.end())
 	{
-		if (itChan->second.findUser(user->second.getNick()) == true)
+		if (itChan->second.findUser(it->second.getNick()) == true)
 		{
 			answer = "#" + channelName + " have new topic: " + topic + "\r\n"; 
 			send_out(it->second.getSocket(), answer);
