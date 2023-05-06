@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:33:20 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 16:09:00 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:24:14 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,13 @@ void	Server::topic(std::map<int, User>::iterator user, std::string buff) {
 
 	size_t pos;	
 	std::string answer;
-	
+
+	if (( pos = _buff.find("TOPIC #") ) != 0 )
+	{
+		answer = "Usage: TOPIC <#channel> <view/change> <topic>\r\n";
+		send_out(user->second.getSocket(), answer);
+		return;
+	}
 	pos = buff.find("view");
 	if (pos != std::string::npos)
 	{

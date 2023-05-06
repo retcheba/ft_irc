@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 15:27:37 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 17:03:53 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 19:08:00 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,13 @@ void	Server::invite(std::map<int, User>::iterator user, std::string buff)
 	itChan = findChannelIterator(channelName);
 	if (itChan->second.findUser(user->second.getNick()) == false)
 	{
-		answer = "You have not join the channel #" + channelName + "\r\n";
+		answer = "You have not join the channel: #" + channelName + "\r\n";
+		send_out(user->second.getSocket(), answer);
+		return;
+	}
+	if (itChan->second.findAdminUser(user->second.getNick()) == false)
+	{
+		answer = "You are not admin in the channel: #" + channelName + "\r\n";
 		send_out(user->second.getSocket(), answer);
 		return;
 	}

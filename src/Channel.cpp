@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 17:26:37 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:11:46 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,17 +349,15 @@ bool	Channel::addUser(int socketUser, std::string user, std::string channelName)
 	{
 		if (*itAcces == user)
 		{
-			answer = user + " are already exist in channel\r\n";
+			answer = user + " is already in the channel\r\n";
 			send_out(socketUser, answer);
 			return (false);
 		}
 		itAcces++;
 	}
 	_accesUser.push_back(user);
-	answer = "You have join channel #" + channelName + "\r\n";
+	answer = "You have join the channel #" + channelName + "\r\n";
 	send_out(socketUser, answer);
-	// answer = "you are added in channel #" + channelName + "\r\n";
-	// send_out(socketNewUser, answer);
 	return (true);
 }
 
@@ -389,7 +387,7 @@ bool	Channel::deleteUser(int socketUser, int socketNewUser, std::string user, st
 			_accesUser.erase(itAcces);
 			answer = user + " has been removed from the channel\r\n";
 			send_out(socketUser, answer);
-			answer = "you has been removed from the channel #" + channelName + "\r\n";
+			answer = "you have been removed from the channel #" + channelName + "\r\n";
 			send_out(socketNewUser, answer);
 			return (true);
 		}
