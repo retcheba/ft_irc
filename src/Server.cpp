@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 23:02:34 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 15:06:17 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ void	Server::deleteClient( int sock )
 void	Server::deleteAllClient( void )
 {
 	this->_clients.clear();
+	return;
+}
+
+void	Server::deleteAllChannel( void )
+{
+	std::map<std::string, Channel>::iterator ite = this->_channel.end();
+
+	for ( std::map<std::string, Channel>::iterator it = this->_channel.begin(); it != ite; it++ )
+	{
+		it->second.getAcUser().clear();
+		it->second.getAdUser().clear();
+	}
+	this->_channel.clear();
 	return;
 }
 

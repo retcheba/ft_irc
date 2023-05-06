@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 14:47:06 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 14:59:44 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,10 @@ bool	check_password( int &sockClient, fd_set &readFds )
 				if ( server.getPassword().compare(result) == 0 )
 					lock = true;
 				else
+				{
 					clean_buff(buff);
+					result.clear();
+				}
 			}
 			else
 				clean_buff(buff);

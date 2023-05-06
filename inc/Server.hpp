@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 14:44:35 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 14:50:44 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ public:
     void        setSock( int sock );
     void        process( int socket );
     int			alreadyNickname(std::string buff);
+	void		deleteAllChannel( void );
 
     // SEND
     void            sendMessagePrivate( std::map<int, User>::iterator user, std::string buff );

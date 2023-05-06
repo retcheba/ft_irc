@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 14:10:39 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:57:38 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,6 +305,16 @@ bool	Channel::findAdminUser(int socketUser, std::string user, std::string channe
 	answer = "You are not admin in channel: #" + channelName + "\r\n";
 	send_out(socketUser, answer);
 	return (false);
+}
+
+std::vector<std::string> &	Channel::getAcUser( void )
+{
+	return (this->_accesUser);
+}
+
+std::vector<std::string> &	Channel::getAdUser( void )
+{
+	return (this->_adminUser);
 }
 
 /* ************************************************************************** */
