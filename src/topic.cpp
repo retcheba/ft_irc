@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:33:20 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 19:24:14 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 19:36:07 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,16 @@ void	Server::topicView(std::map<int, User>::iterator user, std::string buff) {
 		send_out(user->second.getSocket(), answer);
 		return;
 	}
+	if (itChan->second.findAdminUser(user->second.getNick()) == false)
+	{
+		answer = "You are not admin in the channel: #" + channelName + "\r\n";
+		send_out(user->second.getSocket(), answer);
+		return;
+	}
 	
 	if (itChan->second.getTopic() == "")
 	{
-		answer = "There are not topic in channel #" + channelName + "\r\n";
+		answer = "There is no topic in the channel #" + channelName + "\r\n";
 		send_out(user->second.getSocket(), answer);
 		return ;
 	}
@@ -153,6 +159,12 @@ void	Server::topicChange(std::map<int, User>::iterator user, std::string buff) {
 	if (itChan->second.findUser(user->second.getNick()) == false)
 	{
 		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(user->second.getSocket(), answer);
+		return;
+	}
+	if (itChan->second.findAdminUser(user->second.getNick()) == false)
+	{
+		answer = "You are not admin in the channel: #" + channelName + "\r\n";
 		send_out(user->second.getSocket(), answer);
 		return;
 	}
