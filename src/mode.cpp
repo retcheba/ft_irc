@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 17:35:51 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:38:49 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	Server::passwordSetRemove(std::map<int, User>::iterator user, std::string b
 		return ;
 	}
 	mode = "MODE #" + channelName + " -k remove";
-	pos = buff.find(" -i remove");
+	pos = buff.find(mode);
 	if (pos != std::string::npos)
 	{
 		itChan = findChannelIterator(channelName);
@@ -174,7 +174,7 @@ void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string bu
 	pos = buff.find(mode);
 	if (pos != std::string::npos)
 	{
-		nickname = mode.erase(0, mode.length());
+		nickname = buff.substr(mode.length(), buff.length());
 		itChan = findChannelIterator(channelName);
 		if (itChan->second.findUser(nickname) == false)
 		{
@@ -187,11 +187,19 @@ void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string bu
 		return ;
 	}
 	mode = "MODE #" + channelName + " -o take ";
-	pos = buff.find(" -i remove");
+	pos = buff.find(mode);
 	if (pos != std::string::npos)
 	{
+		nickname = buff.substr(mode.length(), buff.length());
 		itChan = findChannelIterator(channelName);
-		itChan->second.removePassWord(user->second.getSocket(), user->second.getNick(), channelName);
+		if (itChan->second.findUser(nickname) == false)
+		{
+			answer = nickname + " are not in channel: #" + channelName + "\r\n";
+			send_out(user->second.getSocket(), answer);
+			return ;
+		}
+		itUser = findUserIterator(nickname);
+		itChan->second.removeAdmin(user->second.getSocket(), itUser->second.getSocket(), nickname);
 		return ;
 	}
 }
@@ -235,7 +243,7 @@ void	Server::limitSetRemove(std::map<int, User>::iterator user, std::string buff
 		return ;
 	}
 	mode = "MODE #" + channelName + " -l remove";
-	pos = buff.find(" -i remove");
+	pos = buff.find(mode);
 	if (pos != std::string::npos)
 	{
 		itChan = findChannelIterator(channelName);
