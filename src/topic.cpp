@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:33:20 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 21:38:52 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 22:00:52 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void	Server::topicChange(std::map<int, User>::iterator user, std::string buff) {
 	}
 	if (itChan->second.findTopicAdmin(user->second.getNick()) == false)
 	{
-		answer = user->second.getNick() + " no longer has the right to the topic #" + channelName + "\r\n";
+		answer = user->second.getNick() + " no longer has the right to change the topic #" + channelName + "\r\n";
 		send_out(user->second.getSocket(), answer);
 		return ;
 	}

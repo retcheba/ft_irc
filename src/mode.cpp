@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 21:32:00 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 22:06:17 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff
 			send_out(user->second.getSocket(), answer);
 			return ;
 		}
-		if (itChan->second.findTopicAdmin(nickname) == false)
+		if (itChan->second.findTopicAdmin(nickname) == true)
 		{
 			answer = nickname + " already has the rights to the topic #" + channelName + "\r\n";
 			send_out(user->second.getSocket(), answer);
@@ -127,7 +127,7 @@ void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff
 	{
 		nickname = buff.substr(mode.length(), buff.length());
 		itChan = findChannelIterator(channelName);
-				if (itChan->second.findUser(nickname) == false)
+		if (itChan->second.findUser(nickname) == false)
 		{
 			answer = nickname + " is not in channel #" + channelName + "\r\n";
 			send_out(user->second.getSocket(), answer);
@@ -139,7 +139,7 @@ void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff
 			send_out(user->second.getSocket(), answer);
 			return ;
 		}
-		if (itChan->second.findTopicAdmin(nickname) == true)
+		if (itChan->second.findTopicAdmin(nickname) == false)
 		{
 			answer = nickname + " no longer has the right to the topic #" + channelName + "\r\n";
 			send_out(user->second.getSocket(), answer);

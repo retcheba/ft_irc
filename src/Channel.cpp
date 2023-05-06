@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 21:12:04 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 22:10:46 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void	Channel::setTopicAdminOnly(int socketAdminTopic, int socketNewAdminTopic, s
 		return ;
 	}
 	_topicAdmin.push_back(user);
-	answer = user + " can change topic now\r\n";
+	answer = user + " can change the channel topic now\r\n";
 	send_out(socketAdminTopic, answer);
-	answer = "You can change topic\r\n";
+	answer = "You can change the topic in the channel #" + channelName + "\r\n";
 	send_out(socketNewAdminTopic, answer);
 }
 
@@ -397,9 +397,9 @@ bool	Channel::deleteTopicAdmin(int socketUser, int socketNewUser, std::string us
 		if (*itTopic == user)
 		{
 			_topicAdmin.erase(itTopic);
-			answer = user + " no right to change the topic in channel\r\n";
+			answer = user + " is not allowed to change the channel topic anymore\r\n";
 			send_out(socketUser, answer);
-			answer = "you have no right to change the topic in channel #" + channelName + "\r\n";
+			answer = "you are no longer allowed to change the topic in the channel #" + channelName + "\r\n";
 			send_out(socketNewUser, answer);
 			return (true);
 		}
