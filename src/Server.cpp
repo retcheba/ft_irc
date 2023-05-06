@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 15:06:17 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 15:19:33 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ void    Server::process( int socket )
 		kickChannel(user, this->_buff);
 	else if ( ( pos = _buff.find("TOPIC #") ) != std::string::npos )
 		topic(user, this->_buff);
+	// else if ( ( pos = _buff.find("MODE #") ) != std::string::npos )
+	// 	mode(user, this->_buff);
 	else
 		send_out((socket + this->_sock), "Accepted commands:\n- private message\n * 'SEND <nickname> <message>'\n- channel\n * 'JOIN <#channel>'\n * 'SEND <#channel> <message>'\n * 'KICK <#channel> <nickname>'\n * 'INVITE <#channel> <nickname>'\n * 'TOPIC <#channel>'\n * 'TOPIC <#channel> <topic>'\n * 'MODE -(i, t, k, o) <#channel>'\r\n");
 	return;

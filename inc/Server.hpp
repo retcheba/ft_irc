@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 14:50:44 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 15:19:04 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,15 @@ public:
     void	        topic(std::map<int, User>::iterator user, std::string buff);
     void	        topicChange(std::map<int, User>::iterator user, std::string buff);
     void	        topicView(std::map<int, User>::iterator user, std::string buff);
+    
+    // MODE
+    // void	Server::mode(std::map<int, User>::iterator user, std::string buff);
+    
+    // void	Server::inviteSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName);
+    // void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName);
+    // void	Server::passwordSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName);
+    // void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string buff, std::string channelName);
+    // void	Server::limitSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName);
     
     // UTILIES CMD
     std::map<std::string, Channel>::iterator 	findChannelIterator(std::string channelName);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 14:57:38 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 15:15:09 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,62 @@ Channel::~Channel()
 ** --------------------------------- MODE SET ----------------------------------
 */
 
-void	Channel::setInviteOnly() {
+void	Channel::setInviteOnly(int socketUser, std::string user, std::string channelName) {
 
+	std::string answer;
+
+	if (inviteOnly == true)
+	{
+		answer = "Mode invite only already set !\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}		
+	if (findUser(socketUser, user, channelName) == false)
+		return ;
+	if (findAdminUser(socketUser, user, channelName) == false)
+		return ;
+	
+	answer = "Mode invite only are set !\r\n";
+	send_out(socketUser, answer);
 	inviteOnly = true;
 }
 
-void	Channel::setTopicAdminOnly() {
+void	Channel::setTopicAdminOnly(int socketUser, std::string user, std::string channelName) {
 
+	std::string answer;
+	if (topicAdminOnly == true)
+	{
+		answer = "Mode topic admin are already set !\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}		
+	if (findUser(socketUser, user, channelName) == false)
+		return ;
+	if (findAdminUser(socketUser, user, channelName) == false)
+		return ;
+	
+	answer = "Mode topic admin are set !\r\n";
+	send_out(socketUser, answer);
 	topicAdminOnly = true;
 }
 
-void	Channel::setPassWord() {
+void	Channel::setPassWord(int socketUser, std::string user, std::string channelName) {
 
+	std::string answer;
+
+	if (passwordSet == true)
+	{
+		answer = "Mode password are already set !\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}	
+	if (findUser(socketUser, user, channelName) == false)
+		return ;
+	if (findAdminUser(socketUser, user, channelName) == false)
+		return ;
+	
+	answer = "Mode password are set !\r\n";
+	send_out(socketUser, answer);
 	passwordSet = true;
 }
 
@@ -111,18 +155,63 @@ bool	Channel::setAdmin(int socketAdmin, int socketNewAdmin, std::string admin) {
 ** --------------------------------- MODE REMOVE ----------------------------------
 */
 
-void	Channel::removeInviteOnly() {
+void	Channel::removeInviteOnly(int socketUser, std::string user, std::string channelName) {
 
+	std::string answer;
+	
+	if (topicAdminOnly == false)
+	{
+		answer = "Mode invite only are already remove !\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}
+	if (findUser(socketUser, user, channelName) == false)
+		return ;
+	if (findAdminUser(socketUser, user, channelName) == false)
+		return ;
+	
+	answer = "Mode invite only are remove !\r\n";
+	send_out(socketUser, answer);
 	inviteOnly = false;
 }
 
-void	Channel::removeTopicAdminOnly() {
+void	Channel::removeTopicAdminOnly(int socketUser, std::string user, std::string channelName) {
 
+	std::string answer;
+	
+	if (topicAdminOnly == false)
+	{
+		answer = "Mode topic admin are already remove !\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}
+	if (findUser(socketUser, user, channelName) == false)
+		return ;
+	if (findAdminUser(socketUser, user, channelName) == false)
+		return ;
+	
+	answer = "Mode topic admin are remove !\r\n";
+	send_out(socketUser, answer);
 	topicAdminOnly = false;
 }
 
-void	Channel::removePassWord() {
+void	Channel::removePassWord(int socketUser, std::string user, std::string channelName) {
 
+	std::string answer;
+	
+	if (passwordSet == false)
+	{
+		answer = "Mode password are already remove !\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}
+	if (findUser(socketUser, user, channelName) == false)
+		return ;
+	if (findAdminUser(socketUser, user, channelName) == false)
+		return ;
+	
+	answer = "Mode password are remove !\r\n";
+	send_out(socketUser, answer);
 	passwordSet = false;
 }
 

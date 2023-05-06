@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:18:53 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 14:57:45 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/06 15:18:01 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,22 @@ class Channel
 		~Channel();
 	
 		// MODE SET
-		void	setInviteOnly();
-		void	setTopicAdminOnly();
-		void	setPassWord();
+		void	setInviteOnly(int socketUser, std::string user, std::string channelName);
+		void	setTopicAdminOnly(int socketUser, std::string user, std::string channelName);
+		void	setPassWord(int socketUser, std::string user, std::string channelName);
 		void	setMaxUser(size_t maxUSer);
 		bool	setAdmin(int socketAdmin, int socketNewAdmin, std::string admin);
 
 		// MODE REMOVE
-		void	removeInviteOnly();
-		void	removeTopicAdminOnly();
-		void	removePassWord();
+		void	removeInviteOnly(int socketUser, std::string user, std::string channelName);
+		void	removeTopicAdminOnly(int socketUser, std::string user, std::string channelName);
+		void	removePassWord(int socketUser, std::string user, std::string channelName);
 		void	removeMaxUser();
 		bool	removeAdmin(int socketAdmin, int socketKick, std::string admin);
 
 		// ADD
 		void	addTopic(std::string topic);
+		void	addPassword(std::string password); 
 		bool	addUser(int socketUser, std::string user, std::string channelName);
 
 		// DELETE
@@ -60,6 +61,7 @@ class Channel
 		//GETTER
 		bool	getAccesUser(int socketUser, std::string channelName);
 		std::string 	getTopic();
+		std::string 	getPassword(); 
 		std::vector<std::string> &	getAcUser( void );
 		std::vector<std::string> &	getAdUser( void );
 
