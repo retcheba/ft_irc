@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 19:38:49 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:48:43 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	Server::passwordSetRemove(std::map<int, User>::iterator user, std::string b
 	pos = buff.find(mode);
 	if (pos != std::string::npos)
 	{
-		password = mode.erase(0, mode.length());
+		password = buff.substr(mode.length(), buff.length());
 		if (checkPassword(password) == false)
 		{
 			answer = "Usage: MODE <#channel> -k set <password>\r\n";

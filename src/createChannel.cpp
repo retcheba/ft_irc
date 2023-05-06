@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:53:04 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 17:25:29 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 20:09:05 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,14 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 	
 	std::map<std::string, Channel>::iterator itChan;
 	
-	std::string channelName = cleanString(buff, "JOIN #");
+	std::string channelName = cleanStringCmd(buff, "JOIN #");
 	std::string password;
 	std::string answer;
 	std::string mode;
 	
 	mode = "JOIN #" + channelName + " ";
-	password = mode.erase(0, mode.length());
+	if (mode.length() < buff.length())
+		password = buff.substr(mode.length(), buff.length());
 	if (!checkFormatJoin(buff) && checkPassword(password) == false)
 	{
 		answer = "Usage: JOIN <#channel> (password)\r\n";
@@ -124,32 +125,3 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 	this->_channel.insert(std::pair<std::string, Channel>(channelName, chan));
 	return;
 }
-
-// void		Server::createChannel(std::map<int, User>::iterator user, std::string buff) {
-	
-// 	std::map<std::string, Channel>::iterator itChan;
-	
-// 	std::string channelName = cleanString(buff, "JOIN #");
-// 	std::string answer;
-	
-// 	if (!checkFormatJoin(buff))
-// 	{
-// 		answer = "Usage: JOIN <#channel\r\n";
-// 		send_out(user->second.getSocket(), answer);
-// 		return;
-// 	}
-// 	if (checkAlreadyChannel(channelName) == true)
-// 	{
-// 		itChan = findChannelIterator(channelName);
-		
-// 		if (itChan->second.getAccesUser(user->second.getSocket(), channelName) == true)
-// 			return;
-			
-// 		itChan->second.addUser(user->second.getSocket(), user->second.getNick(), channelName);
-// 		return;
-// 	}
-// 	Channel chan(user->second.getSocket(), user->second.getNick(),channelName);
-
-// 	this->_channel.insert(std::pair<std::string, Channel>(channelName, chan));
-// 	return;
-// }
