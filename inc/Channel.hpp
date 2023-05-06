@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:18:53 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 15:50:59 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:31:51 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ class Channel
 		void	setInviteOnly(int socketUser, std::string user, std::string channelName);
 		void	setTopicAdminOnly(int socketUser, std::string user, std::string channelName);
 		void	setPassWord(int socketUser, std::string user, std::string channelName, std::string password);
-		void	setMaxUser(size_t maxUSer);
+		void	setMaxUser(int socketUser, std::string user, std::string channelName, double maxUSer); //push
 		bool	setAdmin(int socketAdmin, int socketNewAdmin, std::string admin);
 
 		// MODE REMOVE
 		void	removeInviteOnly(int socketUser, std::string user, std::string channelName);
 		void	removeTopicAdminOnly(int socketUser, std::string user, std::string channelName);
 		void	removePassWord(int socketUser, std::string user, std::string channelName);
-		void	removeMaxUser();
+		void	removeMaxUser(int socketUser, std::string user, std::string channelName);
 		bool	removeAdmin(int socketAdmin, int socketKick, std::string admin);
 
 		// ADD
@@ -78,7 +78,7 @@ class Channel
 
 	private:
 
-		size_t _maxUser;
+		double _maxUser; // push
 
 		std::string _topic;
 		std::string _password;

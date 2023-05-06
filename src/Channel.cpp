@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 16:04:30 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:33:22 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,24 @@ void	Channel::setPassWord(int socketUser, std::string user, std::string channelN
 	passwordSet = true;
 }
 
-void	Channel::setMaxUser(size_t maxUSer) {
+void	Channel::setMaxUser(int socketUser, std::string user, std::string channelName, double maxUSer) {
 	
+	std::string answer;
+
+	if (findUser(user) == false)
+	{
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}
+	if (findAdminUser(user) == false)
+	{
+		answer = "You are not admin in channel: #" + channelName + "\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}
+	answer = "Max user are change\r\n";
+	send_out(socketUser, answer);
 	maxUserSet = true;
 	this->_maxUser = maxUSer;
 }
@@ -265,9 +281,26 @@ void	Channel::removePassWord(int socketUser, std::string user, std::string chann
 	passwordSet = false;
 }
 
-void	Channel::removeMaxUser() {
+void	Channel::removeMaxUser(int socketUser, std::string user, std::string channelName) {
 
+	std::string answer;
+
+	if (findUser(user) == false)
+	{
+		answer = "You have not join the channel #" + channelName + "\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}
+	if (findAdminUser(user) == false)
+	{
+		answer = "You are not admin in channel: #" + channelName + "\r\n";
+		send_out(socketUser, answer);
+		return ;
+	}
+	answer = "Max user are there are no limit of members\r\n";
+	send_out(socketUser, answer);
 	maxUserSet = false;
+	this->_maxUser = 0;
 }
 
 bool	Channel::removeAdmin(int socketAdmin, int socketKick, std::string admin) {

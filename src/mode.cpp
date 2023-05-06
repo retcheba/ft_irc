@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 16:09:35 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:39:23 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,46 +27,35 @@ void	Server::mode(std::map<int, User>::iterator user, std::string buff) {
 	pos = buff.find(" -i ");
 	if (pos != std::string::npos)
 	{
+		inviteSetRemove(user, buff, channelName);
 		return ;
 	}
 	pos = buff.find(" -t ");
 	if (pos != std::string::npos)
 	{
+		topicSetRemove(user, buff, channelName);
 		return ;
 	}
 	pos = buff.find(" -k ");
 	if (pos != std::string::npos)
 	{
+		passwordSetRemove(user, buff, channelName);
 		return ;
 	}
 	pos = buff.find(" -o ");
 	if (pos != std::string::npos)
 	{
+		operatorGiveTake(user, buff, channelName);
 		return ;
 	}
 	pos = buff.find(" -l ");
 	if (pos != std::string::npos)
 	{
+		limitSetRemove(user, buff, channelName);
 		return ;
 	}
 	answer = "Usage: MODE <#channel> -<i/t> <set/remove>\nUsage: MODE <#channel> -k <set> <password>\nUsage: MODE <#channel> -k <remove>\nUsage: MODE <#channel> -o <give/take> <nickname>\r\n" ;
 	send_out(user->second.getSocket(), answer);
-}
-
-bool 	checkPassword(std::string buff)
-{
-	int i = 0;
-	
-	for (int l = 0; buff[l] != '\0'; l++)
-	{
-		if (buff[l] == ' ')
-			return (false);
-	}
-	while (buff[i] != ' ' && buff[i] != '\0' && ( buff[i] > 32 && buff[i] < 127))
-		i++;
-	if (buff[i] != '\0')
-		return (false);
-	return (true);
 }
 
 void	Server::inviteSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName) {
@@ -119,6 +108,22 @@ void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff
 	}
 }
 
+bool 	checkPassword(std::string buff)
+{
+	int i = 0;
+	
+	for (int l = 0; buff[l] != '\0'; l++)
+	{
+		if (buff[l] == ' ')
+			return (false);
+	}
+	while (buff[i] != ' ' && buff[i] != '\0' && ( buff[i] > 32 && buff[i] < 127))
+		i++;
+	if (buff[i] != '\0')
+		return (false);
+	return (true);
+}
+
 void	Server::passwordSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName) {
 
 	std::map<std::string, Channel>::iterator itChan;
@@ -163,7 +168,7 @@ void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string bu
 	std::string answer;
 	std::string nickname;
 	
-	mode = "MODE #" + channelName + " -k set ";
+	mode = "MODE #" + channelName + " -o give ";
 	pos = buff.find(mode);
 	if (pos != std::string::npos)
 	{
@@ -179,7 +184,7 @@ void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string bu
 		itChan->second.setAdmin(user->second.getSocket(), itUser->second.getSocket(), nickname);
 		return ;
 	}
-	mode = "MODE #" + channelName + " -k remove";
+	mode = "MODE #" + channelName + " -o take ";
 	pos = buff.find(" -i remove");
 	if (pos != std::string::npos)
 	{
@@ -189,6 +194,50 @@ void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string bu
 	}
 }
 
-// void	Server::limitSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName) {
+bool	checkLimitNb(std::string buff) {
 	
-// }
+	char *p;
+	double nb;
+
+	nb = strtod(buff.c_str(), &p);
+	if (p[0] != '\0')
+		return (false);
+	if (nb <= 0)
+		return (false);
+	return (true);
+}
+
+void	Server::limitSetRemove(std::map<int, User>::iterator user, std::string buff, std::string channelName) {
+	
+	std::map<std::string, Channel>::iterator itChan;
+	
+	char *p;
+	size_t pos;
+	std::string mode;
+	std::string answer;
+	std::string number;
+	
+	mode = "MODE #" + channelName + " -k set ";
+	pos = buff.find(mode);
+	if (pos != std::string::npos)
+	{
+		number = mode.erase(0, mode.length());
+		if (checkLimitNb(number) == false)
+		{
+			answer = "Usage: MODE <#channel> -l set <number>\nNumber must be superior than zero\r\n";
+			send_out(user->second.getSocket(), answer);
+			return;
+		}
+		itChan = findChannelIterator(channelName);
+		itChan->second.setMaxUser(user->second.getSocket(), user->second.getNick(), channelName, strtod(number.c_str(), &p));
+		return ;
+	}
+	mode = "MODE #" + channelName + " -l remove";
+	pos = buff.find(" -i remove");
+	if (pos != std::string::npos)
+	{
+		itChan = findChannelIterator(channelName);
+		itChan->second.removeMaxUser(user->second.getSocket(), user->second.getNick(), channelName);
+		return ;
+	}	
+}
