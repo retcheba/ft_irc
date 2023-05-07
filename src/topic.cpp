@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:33:20 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 22:00:52 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:01:19 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ std::string 	cleanLastMessage(std::string buff, std::string cmd)
 
 void	Server::topic(std::map<int, User>::iterator user, std::string buff) {
 
-	size_t pos;	
+	size_t pos;
 	std::string answer;
 
 	if (( pos = _buff.find("TOPIC #") ) != 0 )

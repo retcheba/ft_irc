@@ -35,6 +35,17 @@
 		"ostream": "cpp",
 		"streambuf": "cpp",
 		"cinttypes": "cpp",
-		"typeinfo": "cpp"
+		"typeinfo": "cpp",
+		"array": "cpp",
+		"atomic": "cpp",
+		"unordered_map": "cpp",
+		"functional": "cpp",
+		"iterator": "cpp",
+		"numeric": "cpp",
+		"string_view": "cpp",
+		"system_error": "cpp",
+		"iosfwd": "cpp",
+		"istream": "cpp",
+		"stdexcept": "cpp"
 	}
 }

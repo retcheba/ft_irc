@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   kickChannel.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:29:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 15:09:06 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/07 16:02:36 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@ void	Server::kickChannel(std::map<int, User>::iterator user, std::string buff) {
 	std::string answer;
 	std::string userName;
 	std::string channelName;
+	size_t pos;
 	
+	if (( pos = _buff.find("KICK") ) != 0 )
+	{
+		answer = "Usage: KICK <#channel> <nickname>\r\n";
+		send_out(user->second.getSocket(), answer);
+		return;
+	}
 	if (!checkFormatMessage(buff, "KICK #", 7))
 	{
 		answer = "Usage: KICK <#channel> <nickname>\r\n";

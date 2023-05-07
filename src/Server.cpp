@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 15:25:10 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:05:27 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void    Server::process( int socket )
 		topic(user, this->_buff);
 	else if ( ( pos = _buff.find("MODE #") ) != std::string::npos )
 		mode(user, this->_buff);
-	else if ( ( pos = _buff.find("INVITE") ) != std::string::npos )
+	else if ( ( pos = _buff.find("INVITE #") ) != std::string::npos )
 		invite(user, this->_buff);
 	else
 		send_out((socket + this->_sock), "Accepted commands:\n- private message\n * SEND\n- channel\n * JOIN\n * SEND\n * KICK\n * INVITE\n * TOPIC\n * MODE\r\n");

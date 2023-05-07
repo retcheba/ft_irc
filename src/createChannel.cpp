@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   createChannel.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:53:04 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 20:22:21 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/07 16:01:41 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,14 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 	std::string password;
 	std::string answer;
 	std::string mode;
+	size_t pos;
 	
+	if (( pos = _buff.find("JOIN") ) != 0 )
+	{
+		answer = "Usage: JOIN <#channel> (password)\r\n";
+		send_out(user->second.getSocket(), answer);
+		return;
+	}
 	mode = "JOIN #" + channelName + " ";
 	if (mode.length() < buff.length())
 		password = buff.substr(mode.length(), buff.length());

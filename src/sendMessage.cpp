@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:17:31 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 19:54:59 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 15:59:07 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ void	Server::sendMessagePrivate(std::map<int, User>::iterator user, std::string 
 	size_t pos;
     std::string clean = cleanString(buff, "SEND ");
 
+	if (( pos = _buff.find("SEND") ) != 0 )
+	{
+		send_out(user->second.getSocket(), "Usage: SEND <nickname> <message>\r\n" );
+        return;
+	}
     if (!checkFormatMessage(buff, "SEND ", 5))
     {
         send_out(user->second.getSocket(), "Usage: SEND <nickname> <message>\r\n" );
@@ -87,7 +92,14 @@ void	Server::sendMessageChannel(std::map<int, User>::iterator user, std::string 
 	std::string answer;
 	std::string message;
 	std::string channelName;
+	size_t pos;	
 	
+	if (( pos = _buff.find("SEND #") ) != 0 )
+	{
+		answer = "Usage: SEND <#channel> <message>\r\n";
+		send_out(user->second.getSocket(), answer);
+		return;
+	}
 	if (!checkFormatMessage(buff, "SEND #", 6))
 	{
 		answer = "Usage: SEND <#channel> <message>\r\n";
