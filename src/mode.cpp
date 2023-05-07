@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 15:20:32 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/07 15:39:23 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	Server::mode(std::map<int, User>::iterator user, std::string buff) {
 		limitSetRemove(user, buff, channelName);
 		return ;
 	}
-	answer = "Usage: MODE <#channel> -<i/t> <set/remove>\nUsage: MODE <#channel> -k <set> <password>\nUsage: MODE <#channel> -k <remove>\nUsage: MODE <#channel> -o <give/take> <nickname>\r\n" ;
+	answer = "Usage: MODE <#channel> -i <set/remove>\nUsage: MODE <#channel> -t <set/remove> <nickname>\nUsage: MODE <#channel> -k <set> <password>\nUsage: MODE <#channel> -k <remove>\nUsage: MODE <#channel> -o <give/take> <nickname>\nUsage: MODE <#channel> -l <set> <number>\nUsage: MODE <#channel> -l <remove>\r\n" ;
 	send_out(user->second.getSocket(), answer);
 }
 
@@ -152,7 +152,7 @@ void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff
 		itChan->second.deleteTopicAdmin(user->second.getSocket(), itUser->second.getSocket(), nickname, channelName);
 		return ;
 	}
-	answer = "Usage: MODE <#channel> -t <set/remove> <adminUser>\r\n";
+	answer = "Usage: MODE <#channel> -t <set/remove> <nickname>\r\n";
 	send_out(user->second.getSocket(), answer);
 }
 
@@ -254,7 +254,7 @@ void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string bu
 		itChan->second.removeAdmin(user->second.getSocket(), itUser->second.getSocket(), nickname);
 		return ;
 	}
-	answer = "Usage: MODE <#channel> -o <give/take> <user/userAdmin>\r\n";
+	answer = "Usage: MODE <#channel> -o <give/take> <nickname>\r\n";
 	send_out(user->second.getSocket(), answer);
 }
 
@@ -304,7 +304,7 @@ void	Server::limitSetRemove(std::map<int, User>::iterator user, std::string buff
 		itChan->second.removeMaxUser(user->second.getSocket(), user->second.getNick(), channelName);
 		return ;
 	}
-	answer = "Usage: MODE <#channel> -l <set> <maxUser>\r\n";
+	answer = "Usage: MODE <#channel> -l <set> <number>\r\n";
 	send_out(user->second.getSocket(), answer);
 	answer = "Usage: MODE <#channel> -l <remove>\r\n";
 	send_out(user->second.getSocket(), answer);
