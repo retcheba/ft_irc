@@ -5,7 +5,7 @@ SRCS		= main.cpp \
 				Create_Server/ignoreMessage.cpp Create_Server/launchServer.cpp Create_Server/setNickname.cpp Create_Server/setUsername.cpp \
 				Channel/Channel.cpp Channel/add.cpp Channel/delete.cpp Channel/find.cpp \
 				Channel/getter.cpp Channel/modeGetter.cpp Channel/modeRemove.cpp Channel/modeSet.cpp \
-				Server/Server.cpp \
+				Server/Server.cpp Server/process.cpp \
 				User/User.cpp \
 				SEND/channelMessage.cpp SEND/privateMessage.cpp \
 				JOIN/createChannel.cpp \
