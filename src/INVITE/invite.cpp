@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 15:27:37 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:39:36 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:26:04 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,21 @@ void	Server::invite(std::map<int, User>::iterator user, std::string buff)
 		answer = "this user is already in the channel: " + nickname + "\r\n";
 		send_out(user->second.getSocket(), answer);
 		return;
+	}
+	if (itChan->second.modeMaxUserSet() == true)
+	{
+		if (itChan->second.channelSize() >= itChan->second.getMaxUser())
+		{
+			answer = "The capacity of the channel is at its maximum\r\n";
+			send_out(user->second.getSocket(), answer);
+			return ;
+		}
+	}
+	if (itChan->second.modePasswordSet() == true)
+	{
+		answer = "You can't invite anyone because the channel is password protected\r\n";
+		send_out(user->second.getSocket(), answer);
+		return ;
 	}
 
 	std::map<int, User>::iterator invited = this->_clients.begin();
