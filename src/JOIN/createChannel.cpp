@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   createChannel.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:53:04 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:39:56 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:44:59 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,46 +27,6 @@ static int 	checkFormatJoin(std::string buff)
 		return (0);
 	return (1);
 }
-
-int 	Server::checkAlreadyChannel(std::string buff)
-{	
-	std::map<std::string, Channel>::iterator it = _channel.begin();
-	
-	while (it != _channel.end())
-	{
-		if (it->first == buff)
-			return (true);
-		it++;
-	}
-	return (false);
-}
-
-std::map<std::string, Channel>::iterator 	Server::findChannelIterator(std::string channelName)
-{	
-	std::map<std::string, Channel>::iterator it = _channel.begin();
-	
-	while (it != _channel.end())
-	{
-		if (it->first == channelName)
-			return (it);
-		it++;
-	}
-	return (it);
-}
-
-std::map<int, User>::iterator 	Server::findUserIterator(std::string nickname) {
-
-	std::map<int, User>::iterator it = _clients.begin();
-	
-	while (it != _clients.end())
-	{
-		if (it->second.getNick() == nickname)
-			return (it);
-		it++;
-	}
-	return (it);
-}
-
 
 void		Server::createChannel(std::map<int, User>::iterator user, std::string buff) {
 	

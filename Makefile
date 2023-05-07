@@ -7,14 +7,15 @@ SRCS		= main.cpp \
 				Channel/getter.cpp Channel/modeGetter.cpp Channel/modeRemove.cpp Channel/modeSet.cpp \
 				Server/Server.cpp \
 				User/User.cpp \
-				SEND/sendMessage.cpp \
+				SEND/channelMessage.cpp SEND/privateMessage.cpp \
 				JOIN/createChannel.cpp \
 				KICK/kickChannel.cpp \
 				TOPIC/topic.cpp \
-				MODE/mode.cpp \
+				MODE/mode.cpp  MODE/inviteMode.cpp MODE/limitsMode.cpp \
+				MODE/operatorMode.cpp MODE/passwordMode.cpp MODE/topicMode.cpp \
 				INVITE/invite.cpp \
 				Signal/signal.cpp \
-				Utils/utils.cpp 
+				Utils/utils.cpp Utils/check.cpp Utils/clean.cpp Utils/findIterator.cpp
 SRC			= $(addprefix src/, $(SRCS))
 OBJS		= $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 D_OBJS		= mkdir -p $(@D)
