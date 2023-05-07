@@ -6,11 +6,11 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:05:27 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:40:16 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 
 Server::Server( void )
 {

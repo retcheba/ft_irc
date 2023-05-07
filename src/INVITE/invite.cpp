@@ -6,11 +6,11 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 15:27:37 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:05:20 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:39:36 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 
 static bool 	checkFormat(std::string buff, std::string remove, int i)
 {

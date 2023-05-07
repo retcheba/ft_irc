@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:17:11 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:22:52 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/07 16:40:20 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 
 extern	Server server;
 

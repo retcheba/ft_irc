@@ -6,11 +6,11 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:29:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:14:58 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:40:02 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 
 void	Server::kickChannel(std::map<int, User>::iterator user, std::string buff) {
 	

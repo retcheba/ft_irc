@@ -6,11 +6,11 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:48:45 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/05 21:30:02 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:40:35 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 
 void	send_out( int sock, std::string str )
 {

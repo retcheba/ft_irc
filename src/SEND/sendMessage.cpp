@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sendMessage.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:17:31 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:22:35 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/07 16:40:11 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 	
 std::string	 Server::cleanString(std::string buff, std::string remove)
 {

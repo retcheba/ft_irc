@@ -6,11 +6,11 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:00:49 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 20:52:57 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:39:20 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 
 extern	Server server;
 

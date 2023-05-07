@@ -6,11 +6,11 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:53:04 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:01:41 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:39:56 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 
 static int 	checkFormatJoin(std::string buff)
 {

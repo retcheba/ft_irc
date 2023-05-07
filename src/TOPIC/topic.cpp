@@ -6,11 +6,11 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:33:20 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:01:19 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:40:26 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 
 bool 	Server::checkLastMessage(std::string buff, std::string cmd)
 {

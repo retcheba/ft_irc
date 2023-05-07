@@ -6,11 +6,11 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:22:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:04:22 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:40:06 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Server.hpp"
 
 void	Server::mode(std::map<int, User>::iterator user, std::string buff) {
 	
