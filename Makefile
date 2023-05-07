@@ -1,7 +1,7 @@
 SRC_DIR		= src
 OBJ_DIR		= obj
 SRCS		= main.cpp Server.cpp createServer.cpp signal.cpp sendMessage.cpp User.cpp createChannel.cpp kickChannel.cpp utils.cpp topic.cpp mode.cpp invite.cpp \
-				channel/Channel.cpp channel/add.cpp channel/delete.cpp channel/find.cpp channel/getter.cpp channel/modeGetter.cpp channel/modeRemove.cpp channel/modeSet.cpp
+				Channel/Channel.cpp Channel/add.cpp Channel/delete.cpp Channel/find.cpp Channel/getter.cpp Channel/modeGetter.cpp Channel/modeRemove.cpp Channel/modeSet.cpp
 SRC			= $(addprefix src/, $(SRCS))
 OBJS		= $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 D_OBJS		= mkdir -p $(@D)
