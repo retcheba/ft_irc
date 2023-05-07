@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:29:55 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:02:36 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:14:58 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	Server::kickChannel(std::map<int, User>::iterator user, std::string buff) {
 		if (it->second.getNick() == userName)
 		{
 			itChan->second.deleteUser(user->second.getSocket(), it->second.getSocket(), userName, channelName);
-			if (itChan->second.channelSize() >= 0)
+			if (itChan->second.channelSize() <= 0)
 			{
 				this->_channel.erase(itChan);
 				answer = "The channel #" + channelName + " has been deleted because there is no one letf\r\n";
