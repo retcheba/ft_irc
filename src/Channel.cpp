@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:16:15 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 22:10:46 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/07 15:06:50 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,7 +363,7 @@ bool	Channel::deleteUser(int socketUser, int socketNewUser, std::string user, st
 					{
 						if (*itTopic == user)
 						{
-							_topicAdmin.erase(itAdmin);
+							_topicAdmin.erase(itTopic);
 							break;
 						}
 						itTopic++;
