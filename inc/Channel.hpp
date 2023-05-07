@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:18:53 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 21:11:33 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/07 16:17:42 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,16 @@ class Channel
 {
 	public:
 
+		// CONSTRUCTOR / DESTRUCTOR
 		Channel();
 		Channel(int socketUser, std::string User, std::string channelName);
 		~Channel();
 	
 		// MODE SET
 		void	setInviteOnly(int socketUser, std::string user, std::string channelName);
+		void	setTopicAdminOnly(int socketAdminTopic, int socketNewAdminTopic, std::string user, std::string channelName);
 		void	setPassWord(int socketUser, std::string user, std::string channelName, std::string password);
-		void	setMaxUser(int socketUser, std::string user, std::string channelName, double maxUSer); //push
+		void	setMaxUser(int socketUser, std::string user, std::string channelName, double maxUSer);
 		bool	setAdmin(int socketAdmin, int socketNewAdmin, std::string admin);
 
 		// MODE REMOVE
@@ -51,27 +53,32 @@ class Channel
 		bool	deleteUser(int socketUser, int socketNewUser, std::string user, std::string channelName);
 		bool	deleteTopicAdmin(int socketUser, int socketNewUser, std::string user, std::string channelName);
 
-		// MODE GETTER
+		// MODE BOOLEAN
 		bool	modeInviteOnly() const;
 		bool	modePasswordSet() const;
 		bool	modeMaxUserSet() const;
-
-		//GETTER
-		bool	getAccesUser(int socketUser, std::string channelName);
+		
+		//GETTER	
 		std::string 	getTopic();
 		std::string 	getPassword();
+
+		int				channelSize();
+		
 		double			getMaxUser();
+
 		std::vector<std::string> &	getAcUser( void );
 		std::vector<std::string> &	getAdUser( void );
 		std::vector<std::string> &	getTopicAdmin( void );
+		
+		bool	getAccesUser(int socketUser, std::string channelName);
 
+		// FIND
 		bool	findUser(std::string user);
 		bool	findAdminUser(std::string user);
 		bool	findTopicAdmin(std::string user);
-		int		channelSize();
-		void	setTopicAdminOnly(int socketAdminTopic, int socketNewAdminTopic, std::string user, std::string channelName);
 
-
+		
+		
 	protected:
 
 		bool inviteOnly;
@@ -80,7 +87,7 @@ class Channel
 
 	private:
 
-		double _maxUser; // push
+		double _maxUser;
 
 		std::string _topic;
 		std::string _password;

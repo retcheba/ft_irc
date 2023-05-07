@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:38 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/06 17:14:24 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/07 16:23:06 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ User::User()
 
 User::	User(std::string user, std::string nick, int sock) : _username(user), _nickname(nick), _socket(sock)
 {
-	// _index = 0;
 }
+
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
 */

@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.cpp                                         :+:      :+:    :+:   */
+/*   modeGetter.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 19:17:11 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:22:52 by luserbu          ###   ########.fr       */
+/*   Created: 2023/05/07 16:12:46 by luserbu           #+#    #+#             */
+/*   Updated: 2023/05/07 16:15:29 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Server.hpp"
+#include "../../inc/Channel.hpp"
 
-extern	Server server;
+/*
+** --------------------------------- MODE GETTER ----------------------------------
+*/
 
-void	sig_handler(int sig);
+bool	Channel::modeInviteOnly() const {
 
-// sig=2 -> ^C
-
-void	sig_init(void)
-{
-	signal(SIGINT, sig_handler);
+	return(this->inviteOnly);
 }
 
-void	sig_handler(int sig)
-{
-	if (sig == 2)
-	{
-		server.deleteAllClient();
-		server.deleteAllChannel();
-		std::cout << std::endl << "Server disconnected" << std::endl;
-		exit(0);
-	}
+bool	Channel::modePasswordSet() const {
+
+	return(this->passwordSet);
 }
+
+bool	Channel::modeMaxUserSet() const {
+
+	return(this->maxUserSet);
+}
+
+/* ************************************************************************** */
