@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modeRemove.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:05:34 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:06:33 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/07 20:49:28 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ bool	Channel::removeAdmin(int socketAdmin, int socketKick, std::string admin) {
 			{
 				if (*itTopic == admin)
 				{
-					_topicAdmin.erase(itAdmin);
+					_topicAdmin.erase(itTopic);
 					break;
 				}
 				itTopic++;
