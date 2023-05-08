@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:58:41 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/06 14:45:02 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/08 13:02:32 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ int	main( int argc, char **argv )
 	}
 	
 	port = atoi(argv[1]);
+	
+	if (server.checkSpace(argv[2]) == false)
+	{
+		std::cerr << "Impossible to put SPACE in password, retry !\n" << std::endl;
+		return (2);
+	}
+
 	server.setPassword(argv[2]);
 
 	if ( server.getPassword().empty() )

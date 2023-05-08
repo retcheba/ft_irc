@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 17:12:57 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:38:04 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ public:
     std::string	    cleanString(std::string buff, std::string remove);
     bool 	        checkLastMessage(std::string buff, std::string cmd);
     bool 	        checkPassword(std::string buff);
+    bool	        checkSpace(std::string buff);
     std::map<std::string, Channel>::iterator	findChannelIterator(std::string channelName);
     std::map<int, User>::iterator	findUserIterator(std::string nickname);
     

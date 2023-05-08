@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkPassword.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:45:19 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:45:54 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:59:31 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	check_password( int &sockClient, fd_set &readFds )
 		}
 
 		int num_bytes = recv(sockClient, buff, 1024, 0);
-	
+		
 		if (num_bytes == -1)
 		{
 			std::cerr << "Error during connection" << std::endl;
@@ -55,7 +55,6 @@ bool	check_password( int &sockClient, fd_set &readFds )
 				result = static_cast<std::string>(buff);
 			else
 				result.append(static_cast<std::string>(buff));
-
 			if (OK)
 			{
 				if ( server.getPassword().compare(result) == 0 )

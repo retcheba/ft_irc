@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   setUsername.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:47:00 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:47:19 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/08 13:16:57 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/Server.hpp"
+
+extern	Server server;
 
 std::string		set_username( int &sockClient, fd_set &readFds )
 {
@@ -43,6 +45,14 @@ std::string		set_username( int &sockClient, fd_set &readFds )
 			close(sockClient);
 			FD_CLR(sockClient, &readFds);
 			break;
+		}
+		else if (server.checkSpace(buff) == false)
+		{
+			if (send(sockClient, "Impossible to put SPACE in your username, retry !\r\n", 51, 0) == -1)
+			{
+				std::cerr << "Error during connection" << std::endl;
+				break;
+			}
 		}
 		else
 		{

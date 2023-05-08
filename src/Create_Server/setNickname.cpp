@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setNickname.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:47:42 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:48:12 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/08 13:16:52 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, std::string user
 			close(sockClient);
 			FD_CLR(sockClient, &readFds);
 			break;
+		}
+		else if (server.checkSpace(buff) == false)
+		{
+			if (send(sockClient, "Impossible to put SPACE in your username, retry !\r\n", 51, 0) == -1)
+			{
+				std::cerr << "Error during connection" << std::endl;
+				break;
+			}
 		}
 		else
 		{
