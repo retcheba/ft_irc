@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:53:04 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:44:59 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:01:50 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 	std::string mode;
 	size_t pos;
 	
-	if (( pos = _buff.find("JOIN") ) != 0 )
+	if (( pos = _buff.find("JOIN") ) != 0 || channelName[0] == '\0')
 	{
 		answer = "Usage: JOIN <#channel> (password)\r\n";
 		send_out(user->second.getSocket(), answer);
@@ -85,6 +85,12 @@ void		Server::createChannel(std::map<int, User>::iterator user, std::string buff
 			return;
 			
 		itChan->second.addUser(user->second.getSocket(), user->second.getNick(), channelName);
+		return;
+	}
+	if (checkSpace(channelName) == false)
+	{
+		answer = "Impossible to put SPACE when you create a new channel\r\n";
+		send_out(user->second.getSocket(), answer);
 		return;
 	}
 	Channel chan(user->second.getSocket(), user->second.getNick(),channelName);

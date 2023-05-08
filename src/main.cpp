@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:58:41 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/08 13:02:32 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:06:19 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ int	main( int argc, char **argv )
 	}
 	
 	port = atoi(argv[1]);
+	
+	if (port < 1024 || port > 65535) 
+	{
+		std::cerr << "Invalid port\n" << std::endl;
+		return (2);
+	}
 	
 	if (server.checkSpace(argv[2]) == false)
 	{
