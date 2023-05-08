@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 17:12:18 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/08 15:04:12 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:20:42 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    Server::process( int socket )
 
 	if ( ( pos = _buff.find("SEND #") ) != std::string::npos )
 		sendMessageChannel(user, this->_buff);
-	else if ( ( pos = _buff.find("SEND") ) != std::string::npos )
+	else if ( ( pos = _buff.find("SEND ") ) != std::string::npos )
 		sendMessagePrivate(user, this->_buff);
 	else if ( ( pos = _buff.find("JOIN #") ) != std::string::npos )
 		createChannel(user, this->_buff);

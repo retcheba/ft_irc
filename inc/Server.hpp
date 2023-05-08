@@ -6,7 +6,7 @@
 /*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/08 12:38:04 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:51:41 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ public:
     
 //	JOIN
 
-    int 	        checkAlreadyChannel(std::string buff);
     void		    createChannel(std::map<int, User>::iterator user, std::string buff);
 
 //	KICK
@@ -99,12 +98,22 @@ public:
 
 //	UTILS
 
-    bool 	        checkFormatMessage(std::string buff, std::string remove, int i);
-    std::string	    cleanStringCmd(std::string buff, std::string remove);
-    std::string	    cleanString(std::string buff, std::string remove);
+// CHECK
+
+    bool 	        checkAlreadyUser(std::string buff);
+    bool 	        checkAlreadyChannel(std::string buff);
     bool 	        checkLastMessage(std::string buff, std::string cmd);
     bool 	        checkPassword(std::string buff);
     bool	        checkSpace(std::string buff);
+    bool 	        checkFormatMessage(std::string buff, std::string remove, int i);
+
+// CLEAN
+
+    std::string	    cleanStringCmd(std::string buff, std::string remove);
+    std::string	    cleanString(std::string buff, std::string remove);
+
+// FIND ITERATOR
+
     std::map<std::string, Channel>::iterator	findChannelIterator(std::string channelName);
     std::map<int, User>::iterator	findUserIterator(std::string nickname);
     

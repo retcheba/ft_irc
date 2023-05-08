@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:33:20 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:40:26 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:52:07 by luserbu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/Server.hpp"
-
-bool 	Server::checkLastMessage(std::string buff, std::string cmd)
-{
-	size_t pos;
-
-	pos = buff.find(cmd);
-	if (pos == std::string::npos)
-		return (false);
-	while (buff[pos] != ' ' && buff[pos] != '\0' && ( buff[pos] > 32 && buff[pos] < 127))
-		pos++;
-	if (buff[pos] != ' ')
-		return (false);
-	if (buff[pos + 1] == '\0')
-		return (false);
-	return (true);
-}
 
 bool 	checkFormatTopic(std::string buff, std::string cmd)
 {
