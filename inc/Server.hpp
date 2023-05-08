@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:38:22 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/08 15:51:41 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 18:57:37 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ public:
     std::string 	getPassword( void );
     void        	newClient( int sockId, int sock, std::string username, std::string nickname );
 	void			deleteClient( int sock );
+	void			deleteClientInChannel( std::string nickname );
 	void			deleteAllClient( void );
     std::string 	getUsername( int sock );
+    std::string 	getNickname( int sock );
     void        	setBuff( std::string buff );
     void        	clearBuff( void );
     void        	setSock( int sock );

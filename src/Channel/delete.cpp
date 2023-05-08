@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:11:00 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:12:06 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 19:04:33 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,42 @@ bool	Channel::deleteUser(int socketUser, int socketNewUser, std::string user, st
 	answer = user + " doesn't exist in channel\r\n";
 	send_out(socketNewUser, answer);
 	return (false);
+}
+
+void	Channel::cleanUser(std::string user)
+{
+	std::vector<std::string>::iterator itAcces = _accesUser.begin();
+	std::vector<std::string>::iterator itAdmin = _adminUser.begin();
+	std::vector<std::string>::iterator itTopic = _topicAdmin.begin();
+
+	while (itAcces != _accesUser.end())
+	{
+		if (*itAcces == user)
+		{
+			_accesUser.erase(itAcces);
+			break;
+		}
+		itAcces++;
+	}
+	while (itAdmin != _adminUser.end())
+	{
+		if (*itAdmin == user)
+		{
+			_adminUser.erase(itAdmin);
+			break;
+		}
+		itAdmin++;
+	}
+	while (itTopic != _topicAdmin.end())
+	{
+		if (*itTopic == user)
+		{
+			_topicAdmin.erase(itTopic);
+			break;
+		}
+		itTopic++;
+	}
+	return;
 }
 
 bool	Channel::deleteTopicAdmin(int socketUser, int socketNewUser, std::string user, std::string channelName) {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:58:41 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/08 15:06:19 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 19:14:15 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int	main( int argc, char **argv )
 	
 	if (port < 1024 || port > 65535) 
 	{
-		std::cerr << "Invalid port\n" << std::endl;
+		std::cerr << "Invalid port" << std::endl;
 		return (2);
 	}
 	
 	if (server.checkSpace(argv[2]) == false)
 	{
-		std::cerr << "Impossible to put SPACE in password, retry !\n" << std::endl;
+		std::cerr << "Impossible to put SPACE in password, retry !" << std::endl;
 		return (2);
 	}
 

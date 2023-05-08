@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 19:18:53 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:17:42 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 19:04:41 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ class Channel
 		// DELETE
 		bool	deleteUser(int socketUser, int socketNewUser, std::string user, std::string channelName);
 		bool	deleteTopicAdmin(int socketUser, int socketNewUser, std::string user, std::string channelName);
+		void	cleanUser(std::string user);
 
 		// MODE BOOLEAN
 		bool	modeInviteOnly() const;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setUsername.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:47:00 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/08 13:16:57 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 19:22:34 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ std::string		set_username( int &sockClient, fd_set &readFds )
 				std::cerr << "Error during connection" << std::endl;
 				break;
 			}
+			clean_buff(buff);
 		}
 		else
 		{

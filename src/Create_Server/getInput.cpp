@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:48:34 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:49:00 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:55:52 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	get_input( int &fd, int &sock, fd_set &readFds )
 		else if (num_bytes == 0)
 		{
 			std::cout << server.getUsername( fd - sock ) << " disconnected" << std::endl;
+			server.deleteClientInChannel( server.getNickname( fd - sock ) );
 			server.deleteClient( fd - sock );
 			server.clearBuff();
 			if (!buff)

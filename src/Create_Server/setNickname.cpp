@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setNickname.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:47:42 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/08 13:16:52 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 19:23:17 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	set_nickname( int &sockClient, int &sock, fd_set &readFds, std::string user
 				std::cerr << "Error during connection" << std::endl;
 				break;
 			}
+			clean_buff(buff);
 		}
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:51:15 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 17:12:45 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/08 19:05:52 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,16 @@ void	Server::deleteClient( int sock )
 	this->_clients.erase(it);
 }
 
+void	Server::deleteClientInChannel( std::string nickname )
+{
+	std::map<std::string, Channel>::iterator ite = this->_channel.end();
+	
+	for ( std::map<std::string, Channel>::iterator it = this->_channel.begin(); it != ite; it++ )
+	{
+		it->second.cleanUser(nickname);
+	}
+}
+
 void	Server::deleteAllClient( void )
 {
 	this->_clients.clear();
@@ -73,6 +83,13 @@ std::string Server::getUsername( int sock )
 	std::map<int, User>::iterator it = _clients.find(sock);
 	
 	return (it->second.getUser());
+}
+
+std::string Server::getNickname( int sock )
+{
+	std::map<int, User>::iterator it = _clients.find(sock);
+	
+	return (it->second.getNick());
 }
 
 void    Server::setBuff( std::string buff )
