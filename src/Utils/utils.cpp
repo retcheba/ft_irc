@@ -6,7 +6,7 @@
 /*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:48:45 by retcheba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:40:35 by retcheba         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:21:46 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	send_out( int sock, std::string str )
 	size_t	size = str.size();
 
 	if ( send(sock, str.c_str(), size, 0) == -1 )
-		std::cerr << "Error Message can't be sent" << std::endl;
+		std::cerr << "Error: Message can't be sent" << std::endl;
 	return;
 }
 

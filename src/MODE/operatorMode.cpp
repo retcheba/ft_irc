@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operatorMode.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:53:29 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:53:58 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:19:57 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string bu
 		itChan = findChannelIterator(channelName);
 		if (itChan->second.findUser(nickname) == false)
 		{
-			answer = nickname + " are not in channel: #" + channelName + "\r\n";
+			answer = nickname + " is not in the channel: #" + channelName + "\r\n";
 			send_out(user->second.getSocket(), answer);
 			return ;
 		}
@@ -46,7 +46,7 @@ void	Server::operatorGiveTake(std::map<int, User>::iterator user, std::string bu
 		itChan = findChannelIterator(channelName);
 		if (itChan->second.findUser(nickname) == false)
 		{
-			answer = nickname + " are not in channel: #" + channelName + "\r\n";
+			answer = nickname + " is not in the channel: #" + channelName + "\r\n";
 			send_out(user->second.getSocket(), answer);
 			return ;
 		}

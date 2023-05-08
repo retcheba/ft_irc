@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topicMode.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luserbu <luserbu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: retcheba <retcheba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:50:41 by luserbu           #+#    #+#             */
-/*   Updated: 2023/05/07 16:51:22 by luserbu          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:20:23 by retcheba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff
 		itChan = findChannelIterator(channelName);
 		if (itChan->second.findUser(nickname) == false)
 		{
-			answer = nickname + " is not in channel #" + channelName + "\r\n";
+			answer = nickname + " is not in the channel #" + channelName + "\r\n";
 			send_out(user->second.getSocket(), answer);
 			return ;
 		}
 		if (itChan->second.findAdminUser(nickname) == false)
 		{
-			answer = nickname + " is not admin in channel #" + channelName + "\r\n";
+			answer = nickname + " is not admin in the channel #" + channelName + "\r\n";
 			send_out(user->second.getSocket(), answer);
 			return ;
 		}
@@ -58,13 +58,13 @@ void	Server::topicSetRemove(std::map<int, User>::iterator user, std::string buff
 		itChan = findChannelIterator(channelName);
 		if (itChan->second.findUser(nickname) == false)
 		{
-			answer = nickname + " is not in channel #" + channelName + "\r\n";
+			answer = nickname + " is not in the channel #" + channelName + "\r\n";
 			send_out(user->second.getSocket(), answer);
 			return ;
 		}
 		if (itChan->second.findAdminUser(nickname) == false)
 		{
-			answer = nickname + " is not admin in channel #" + channelName + "\r\n";
+			answer = nickname + " is not admin in the channel #" + channelName + "\r\n";
 			send_out(user->second.getSocket(), answer);
 			return ;
 		}
